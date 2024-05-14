@@ -1,49 +1,37 @@
 
-import { useState } from 'react'
-import './App.css'
-import axios from 'axios';
+import { BrowserRouter, Routes, Route}  from 'react-router-dom'
+import Sidebar from "./components/Sidebar.jsx"
+import Upload from "./components/Upload.jsx"
+import About from "./components/About.jsx"
+import Login from "./components/Login.jsx"
+import Home from "./components/Home.jsx"
+
+
 
 function App() {
-  const[file, setFile] = useState(null);
-  const[fileUrl, setFileUrl] =useState("");
-  
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try{
-      const fileData = new FormData();
-      fileData.append("file", file); 
-
-      const responseData = await axios({
-        method: "post",
-        url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
-        data: fileData,
-        headers: {
-          Authorization: `Bearer ${import.meta.env.VITE_PINATA_JWT}`,  
-
-        }
-      })
-      const fileUrl = "https://gateway.pinata.cloud/ipfs/" + responseData.data.IpfsHash;
-      setFileUrl(fileUrl);
-
-    } catch(err){
-      console.log(err)
-
-    }
-  }
-
+ 
 
   return (
     <>
     <div>
-      <h1>IPFS: Upload File</h1>
-      <form>
-        <input type="file" aria-label="uploaded" onChange= {(e)=>setFile(e.target.files[0])}/>
-        <button type= "submit" onClick={handleSubmit} > Upload</button>
 
-      </form>
-      {fileUrl && (
-        <a href= {fileUrl} target ="blank" >Check the image here</a>
-      )}
+   <BrowserRouter>
+
+   <Sidebar />
+
+   <Routes>
+        <Route index element={<Home />} />
+       <Route path="/upload" element={<Upload/>} />
+       <Route path="/about" element={<About />} />
+       <Route path="/login" element={<Login />} />
+
+     </Routes>
+
+     </BrowserRouter>
+
+
+
+
     </div>
     
       
