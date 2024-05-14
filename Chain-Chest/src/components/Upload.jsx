@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import axios from 'axios';
+import { uploadDocument } from '../contracts/Web3';
+// import { v4 as uuidv4 } from 'uuid';
 
 function Upload() {
   const[file, setFile] = useState(null);
   const[fileUrl, setFileUrl] =useState("");
+  // const documentId = uuidv4(); 
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,6 +23,8 @@ function Upload() {
 
         }
       })
+      const ipfsHash = responseData.data.IpfsHash;
+      await uploadDocument('document123', ipfsHash);
       const fileUrl = "https://gateway.pinata.cloud/ipfs/" + responseData.data.IpfsHash;
       setFileUrl(fileUrl);
 

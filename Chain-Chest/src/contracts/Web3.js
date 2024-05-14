@@ -33,6 +33,24 @@ const abi = [
             "inputs": [
                 {
                     "internalType": "bytes32",
+                    "name": "documentId",
+                    "type": "bytes32"
+                },
+                {
+                    "internalType": "string",
+                    "name": "ipfsHash",
+                    "type": "string"
+                }
+            ],
+            "name": "uploadDocument",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "bytes32",
                     "name": "",
                     "type": "bytes32"
                 }
@@ -71,33 +89,15 @@ const abi = [
             ],
             "stateMutability": "view",
             "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "bytes32",
-                    "name": "documentId",
-                    "type": "bytes32"
-                },
-                {
-                    "internalType": "string",
-                    "name": "ipfsHash",
-                    "type": "string"
-                }
-            ],
-            "name": "uploadDocument",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
         }
     ]
 ];
 
-const contractAddress = '0xA4031A10Dec75651e9dBcb90100d0107e8126b8C'; 
+const contractAddress = '0x27BE32B99d6E2EdAb04c86Fe862F17BF24006345'; 
 
 const contract = new web3.eth.Contract(abi, contractAddress);
 
-async function retrieveDocument(documentId) {
+export async function retrieveDocument(documentId) {
     try {
         const result = await contract.methods.retrieveDocument(documentId).call();
         console.log('Retrieved document:', result);
@@ -106,7 +106,7 @@ async function retrieveDocument(documentId) {
     }
 }
 
-async function uploadDocument(documentId, ipfsHash) {
+export async function uploadDocument(documentId, ipfsHash) {
     try {
         const accounts = await web3.eth.getAccounts();
         await contract.methods.uploadDocument(documentId, ipfsHash).send({ from: accounts[0] });
@@ -115,6 +115,3 @@ async function uploadDocument(documentId, ipfsHash) {
         console.error('Error uploading document:', error);
     }
 }
-
-retrieveDocument('document123');
-uploadDocument('document123', 'Qm...'); 
