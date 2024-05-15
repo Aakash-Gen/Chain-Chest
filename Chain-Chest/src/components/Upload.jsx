@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import axios from 'axios';
-import { upload } from '../contracts/Web3';
+import { addUploadedFile, getBalance, retrieve } from '../contracts/Web3';
 // import { v4 as uuidv4 } from 'uuid';
 
 function Upload() {
@@ -23,8 +23,10 @@ function Upload() {
 
         }
       })
+      
+      console.log(responseData.data);
       const ipfsHash = responseData.data.IpfsHash;
-      await upload('0x27BE32B99d6E2EdAb04c86Fe862F17BF24006345', ipfsHash);
+      await addUploadedFile(ipfsHash);
       const fileUrl = "https://gateway.pinata.cloud/ipfs/" + responseData.data.IpfsHash;
       setFileUrl(fileUrl);
 
@@ -46,6 +48,12 @@ function Upload() {
         <button type= "submit" onClick={handleSubmit} > Upload</button>
 
       </form>
+      <button onClick={()=>addUploadedFile('harshit')}>
+        hello 
+      </button>
+      <button onClick={retrieve} className='m-10 bg-green-500'>
+        sup
+      </button>
       {fileUrl && (
         <a href= {fileUrl} target ="blank" >Check the image here</a>
       )}
