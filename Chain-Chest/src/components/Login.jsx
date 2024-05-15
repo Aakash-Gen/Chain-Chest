@@ -26,6 +26,7 @@ function App() {
             const web3 = new Web3(currentProvider);
             const userAccount = await web3.eth.getAccounts();
             const account = userAccount[0];
+            localStorage.setItem('address', account);
             const ethBalance = await web3.eth.getBalance(account);
 
             setEthBalance(web3.utils.fromWei(ethBalance, 'ether')); // Convert wei to ether before setting state
