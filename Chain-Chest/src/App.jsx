@@ -5,6 +5,8 @@ import Upload from "./components/Upload.jsx"
 import About from "./components/About.jsx"
 import Login from "./components/Login.jsx"
 import Home from "./components/Home.jsx"
+import Footer from "./components/Footer.jsx"
+
 
 
 
@@ -26,6 +28,8 @@ function App() {
        <Route path="/login" element={<Login />} />
 
      </Routes>
+    
+    <Footer/>
 
      </BrowserRouter>
 
