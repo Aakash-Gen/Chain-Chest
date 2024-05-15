@@ -22,11 +22,10 @@ function App() {
    <Sidebar />
 
    <Routes>
-        <Route index element={<Home />} />
-       <Route path="/upload" element={<Upload/>} />
-       <Route path="/about" element={<About />} />
-       <Route path="/login" element={<Login />} />
-
+      <Route path="/" element={<Home />} />
+      <Route path="/upload" element={<Upload/>} />
+      <Route path="/about" element={<About />} />
+      <Route path="/login" element={<Login />} />
      </Routes>
     
     <Footer/>
