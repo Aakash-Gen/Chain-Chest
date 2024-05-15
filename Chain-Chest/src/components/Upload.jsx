@@ -1,7 +1,7 @@
 
 import { useState } from 'react'
 import axios from 'axios';
-import { uploadDocument } from '../contracts/Web3';
+// import { uploadDocument } from '../contracts/Web3';
 
 
 function Upload() {
@@ -27,8 +27,8 @@ function Upload() {
 
         }
       })
-      const ipfsHash = responseData.data.IpfsHash;
-      await upload('0x27BE32B99d6E2EdAb04c86Fe862F17BF24006345', ipfsHash);
+      // const ipfsHash = responseData.data.IpfsHash;
+      // await upload('0x27BE32B99d6E2EdAb04c86Fe862F17BF24006345', ipfsHash);
       const fileUrl = "https://gateway.pinata.cloud/ipfs/" + responseData.data.IpfsHash;
       setFileUrl(fileUrl);
 
