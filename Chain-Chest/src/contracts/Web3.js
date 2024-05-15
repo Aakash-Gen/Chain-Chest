@@ -1,117 +1,101 @@
 import Web3 from 'web3';
 
-const web3 = new Web3('http://localhost:8545'); 
+// Replace with your provider URL (e.g., Infura, Alchemy, Ganache)
+const providerUrl = 'HTTP://127.0.0.1:8545';
 
+// Contract ABI (Application Binary Interface)
 const abi = [
-    [
-        {
-            "anonymous": false,
-            "inputs": [
-                {
-                    "indexed": false,
-                    "internalType": "bytes32",
-                    "name": "documentId",
-                    "type": "bytes32"
-                },
-                {
-                    "indexed": false,
-                    "internalType": "address",
-                    "name": "owner",
-                    "type": "address"
-                },
-                {
-                    "indexed": false,
-                    "internalType": "string",
-                    "name": "ipfsHash",
-                    "type": "string"
-                }
-            ],
-            "name": "DocumentUploaded",
-            "type": "event"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "bytes32",
-                    "name": "documentId",
-                    "type": "bytes32"
-                },
-                {
-                    "internalType": "string",
-                    "name": "ipfsHash",
-                    "type": "string"
-                }
-            ],
-            "name": "uploadDocument",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "bytes32",
-                    "name": "",
-                    "type": "bytes32"
-                }
-            ],
-            "name": "documents",
-            "outputs": [
-                {
-                    "internalType": "address",
-                    "name": "owner",
-                    "type": "address"
-                },
-                {
-                    "internalType": "string",
-                    "name": "ipfsHash",
-                    "type": "string"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "bytes32",
-                    "name": "documentId",
-                    "type": "bytes32"
-                }
-            ],
-            "name": "retrieveDocument",
-            "outputs": [
-                {
-                    "internalType": "string",
-                    "name": "",
-                    "type": "string"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        }
-    ]
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "documentId",
+        "type": "address"
+      },
+      {
+        "internalType": "string",
+        "name": "ipfsHash",
+        "type": "string"
+      }
+    ],
+    "name": "uploadDocument",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "documentId",
+        "type": "address"
+      }
+    ],
+    "name": "retrieveDocument",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "documentId",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "ipfsHash",
+        "type": "string"
+      }
+    ],
+    "name": "DocumentUploaded",
+    "type": "event"
+  }
 ];
 
-const contractAddress = '0x27BE32B99d6E2EdAb04c86Fe862F17BF24006345'; 
+// Contract address (replace with your deployed contract address)
+const contractAddress = '0xbBd01C9914e653E728457266ea0BE2b07CAf8dE9';
 
-const contract = new web3.eth.Contract(abi, contractAddress);
+  // Initialize Web3 provider
+  const web3 = new Web3(providerUrl);
 
-export async function retrieveDocument(documentId) {
+  // Create contract instance
+  const contract = new web3.eth.Contract(abi, contractAddress);
+
+  // Function to upload a document
+  export async function upload(documentId, ipfsHash) {
     try {
-        const result = await contract.methods.retrieveDocument(documentId).call();
-        console.log('Retrieved document:', result);
+      const tx = await contract.methods.uploadDocument(documentId, ipfsHash).send({
+        from: web3.eth.accounts.getAccountIndex(0) // Replace with your account index
+      });
+      console.log('Document uploaded:', tx.transactionHash);
     } catch (error) {
-        console.error('Error retrieving document:', error);
+      console.error('Error uploading document:', error);
     }
-}
+  }
 
-export async function uploadDocument(documentId, ipfsHash) {
+  // Function to retrieve a document
+  export async function retrieve(documentId) {
     try {
-        const accounts = await web3.eth.getAccounts();
-        await contract.methods.uploadDocument(documentId, ipfsHash).send({ from: accounts[0] });
-        console.log('Document uploaded successfully');
+      const ipfsHash = await contract.methods.retrieveDocument(documentId).call();
+      console.log('Document IPFS hash:', ipfsHash);
     } catch (error) {
-        console.error('Error uploading document:', error);
+      console.error('Error retrieving document:', error);
     }
-}
+  }

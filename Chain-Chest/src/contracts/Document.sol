@@ -7,16 +7,16 @@ contract DocumentStorage {
         string ipfsHash;
     }
 
-    mapping(bytes32 => Document) public documents;
+    mapping(address => string) public documents;
 
-    event DocumentUploaded(bytes32 documentId, address owner, string ipfsHash);
+    event DocumentUploaded(address documentId, address owner, string ipfsHash);
 
-    function uploadDocument(bytes32 documentId, string memory ipfsHash) public {
-        documents[documentId] = Document(msg.sender, ipfsHash);
+    function uploadDocument(address documentId, string memory ipfsHash) public {
+        documents[documentId] = ipfsHash;
         emit DocumentUploaded(documentId, msg.sender, ipfsHash);
     }
 
-    function retrieveDocument(bytes32 documentId) public view returns (string memory) {
-        return documents[documentId].ipfsHash;
+    function retrieveDocument(address documentId) public view returns (string memory) {
+        return  documents[documentId];
     }
 }
