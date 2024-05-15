@@ -1,7 +1,7 @@
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios';
-import { addUploadedFile, getBalance, retrieve } from '../contracts/Web3';
+import { addUploadedFile, getBalance, retrieve, whatsMyAddress } from '../contracts/Web3';
 // import { v4 as uuidv4 } from 'uuid';
 
 function Upload() {
@@ -9,6 +9,12 @@ function Upload() {
   const[file2, setFile2] = useState(null);
   const[fileUrl, setFileUrl] =useState("");
   const [loading, setLoading] = useState(false);
+  const [address, setAddress] = useState("");
+
+  useEffect(() => {
+    const addressTemp = localStorage.getItem('address');
+    setAddress(addressTemp);
+  },[]);
   // const documentId = uuidv4(); 
   
   const handleSubmit = async (e) => {
@@ -30,7 +36,8 @@ function Upload() {
       
       console.log(responseData.data);
       const ipfsHash = responseData.data.IpfsHash;
-      await addUploadedFile(ipfsHash);
+
+      await addUploadedFile(address, ipfsHash);
       const fileUrl = "https://gateway.pinata.cloud/ipfs/" + responseData.data.IpfsHash;
       setFileUrl(fileUrl);
 
@@ -72,6 +79,14 @@ function Upload() {
     </a>
   )}
 </div>
+
+<button className=" bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="submit" onClick={whatsMyAddress}>
+   Whats My Address
+    </button>
+
+    <button className=" bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="submit" onClick={()=> retrieve(address)}>
+   get docs
+    </button>
     
       
     </>

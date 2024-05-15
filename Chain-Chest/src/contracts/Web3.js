@@ -9,6 +9,11 @@ const abi = [
 		"inputs": [
 			{
 				"internalType": "address",
+				"name": "_from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
 				"name": "_withWhom",
 				"type": "address"
 			},
@@ -31,6 +36,11 @@ const abi = [
 	},
 	{
 		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_from",
+				"type": "address"
+			},
 			{
 				"internalType": "string",
 				"name": "_fileName",
@@ -137,7 +147,13 @@ const abi = [
 		"type": "event"
 	},
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_from",
+				"type": "address"
+			}
+		],
 		"name": "getMyDocs",
 		"outputs": [
 			{
@@ -223,9 +239,8 @@ const abi = [
 		"type": "function"
 	}
 ]
-
 // Contract address (replace with your deployed contract address)
-const contractAddress = '0xD3836C7431A95E1ADa0d31601f928650BFA47d1D';
+const contractAddress = '0xD115D8D507f521E1b087B3273204CC0D703e49Bf';
 
   // Initialize Web3 provider
   const web3 = new Web3(providerUrl);
@@ -242,10 +257,20 @@ const contractAddress = '0xD3836C7431A95E1ADa0d31601f928650BFA47d1D';
     }
   }
 
-  // Function to upload a document
-  export async function addUploadedFile(link) {
+  export const whatsMyAddress = async () => {
     try {
-      const tx = await contract.methods.addUploadedFile(link).from("0x27BE32B99d6E2EdAb04c86Fe862F17BF24006345").call();
+        const address = await contract.methods.myAddress().call();
+        //   const tx = await contract.methods.addUploadedFile(ipfsHash).call().then(console.log);
+        console.log('My address: ', address);
+    } catch (error) {
+      console.error('Error getting balance:', error);
+    }
+  }
+
+  // Function to upload a document
+  export async function addUploadedFile(address, link) {
+    try {
+      const tx = await contract.methods.addUploadedFile(address, link).call();
     //   const tx = await contract.methods.addUploadedFile(ipfsHash).call().then(console.log);
       console.log('Document uploaded:', tx.transactionHash);
     } catch (error) {
@@ -254,9 +279,9 @@ const contractAddress = '0xD3836C7431A95E1ADa0d31601f928650BFA47d1D';
   }
 
   // Function to retrieve a document
-  export async function retrieve() {
+  export async function retrieve(address) {
     try {
-      const ipfsHash = await contract.methods.getMyDocs().call();
+      const ipfsHash = await contract.methods.getMyDocs(address).call();
       console.log('Document IPFS hash:', ipfsHash);
     } catch (error) {
       console.error('Error retrieving document:', error);
