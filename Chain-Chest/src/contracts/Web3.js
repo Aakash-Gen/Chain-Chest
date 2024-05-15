@@ -1,7 +1,8 @@
 import {Web3} from 'web3';
 
 // Replace with your provider URL (e.g., Infura, Alchemy, Ganache)
-const providerUrl = 'http://127.0.0.1:8545';
+// const providerUrl = 'http://127.0.0.1:8545';
+const providerUrl = 'https://x2vrsp0j-8545.inc1.devtunnels.ms/';
 
 // Contract ABI (Application Binary Interface)
 const abi = [
