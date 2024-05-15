@@ -1,8 +1,8 @@
 
 import { useEffect, useState } from 'react'
 import axios from 'axios';
-import { uploadDocument } from '../contracts/Web3';
-
+import { addUploadedFile } from '../contracts/Web3';
+// import { v4 as uuidv4 } from 'uuid';
 
 function Upload() {
   const[file, setFile] = useState(null);
@@ -33,8 +33,11 @@ function Upload() {
 
         }
       })
+      
+      console.log(responseData.data);
       const ipfsHash = responseData.data.IpfsHash;
-      await upload('0x27BE32B99d6E2EdAb04c86Fe862F17BF24006345', ipfsHash);
+
+      await addUploadedFile(address, ipfsHash);
       const fileUrl = "https://gateway.pinata.cloud/ipfs/" + responseData.data.IpfsHash;
       setFileUrl(fileUrl);
 
@@ -77,13 +80,13 @@ function Upload() {
       )}
 </div>
 
-<button className=" bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="submit" onClick={whatsMyAddress}>
+{/* <button className=" bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="submit" onClick={whatsMyAddress}>
    Whats My Address
     </button>
 
     <button className=" bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="submit" onClick={()=> retrieve(address)}>
    get docs
-    </button>
+    </button> */}
     
       
     </>
