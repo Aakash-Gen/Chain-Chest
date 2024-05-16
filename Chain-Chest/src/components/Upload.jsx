@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { addUploadedFile } from '../contracts/Web3';
 // import { v4 as uuidv4 } from 'uuid';
+import Files from './Files';
 
 function Upload() {
   const[file, setFile] = useState(null);
@@ -54,7 +55,9 @@ function Upload() {
   return (
   <>
     <div className="flex flex-col items-center justify-center py-10 pb-[60vh]">
+      
       <h1 className="text-5xl font-semibold mt-16 pb-[10vh]">IPFS: Upload File</h1>
+      
       <form className="flex items-center gap-4 mt-8">
         <label htmlFor="fileInput" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
           Choose File
@@ -78,6 +81,8 @@ function Upload() {
           Check the uploaded file here
         </a>
       )}
+      Address: {address}
+      <Files />
 </div>
 
 {/* <button className=" bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="submit" onClick={whatsMyAddress}>
