@@ -4,19 +4,41 @@ import axios from 'axios';
 import { addUploadedFile } from '../contracts/Web3';
 // import { v4 as uuidv4 } from 'uuid';
 import Files from './Files';
+import Web3 from 'web3';
+import encryptFile from '../utils/encryptFile';
+import decryptFile from '../utils/decryptFile';
+import { useNavigate } from 'react-router-dom';
 
 function Upload() {
+  const navigate = useNavigate();
+
   const[file, setFile] = useState(null);
   const[file2, setFile2] = useState(null);
   const[fileUrl, setFileUrl] =useState("");
   const [loading, setLoading] = useState(false);
   const [address, setAddress] = useState("");
 
+
+  const [ uploadedFile, setUploadedFile ] = useState('');
+  const [ filename, setFilename ] = useState('Choose A File');
+  const [ signature, setSignature ] = useState(null);
+
+
+  const onFileChange = (event) => {
+      setUploadedFile((event.target.files[0] !== undefined) ? event.target.files[0] : '');
+      setFilename((event.target.files[0] !== undefined) ? event.target.files[0].name : 'Choose File');
+  };
+
+  const encrypt = () => { encryptFile(uploadedFile, filename, signature); };
+  const decrypt = () => { decryptFile(uploadedFile, filename, signature); };
+
   useEffect(() => {
     const addressTemp = localStorage.getItem('address');
+    if (addressTemp == null) {
+      navigate('/login');
+    }
     setAddress(addressTemp);
   },[]);
-  // const documentId = uuidv4(); 
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,6 +73,33 @@ function Upload() {
     }
   }
 
+  const signMessage = async () => {
+    try {
+
+      const message = "Sign this message to verify your identiy. This will be used for encrypting and decrypting your files."
+      const hashedMessage = Web3.utils.sha3(message);
+
+      const signature = await window.ethereum.request(
+        { 
+            method: "personal_sign", 
+            params: [message, address] 
+        }
+      );
+
+      console.log({ message });
+
+      // split signature
+      const r = signature.slice(0, 66);
+      const s = "0x" + signature.slice(66, 130);
+      const v = parseInt(signature.slice(130, 132), 16);
+      console.log({ r, s, v });
+
+
+      setSignature(signature);
+    } catch (error) {
+        console.error(error);
+    }
+  };
 
   return (
   <>
@@ -59,40 +108,51 @@ function Upload() {
       <h1 className="text-5xl font-semibold mt-16 pb-[10vh]">IPFS: Upload File</h1>
       
       <form className="flex items-center gap-4 mt-8">
+        
         <label htmlFor="fileInput" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
           Choose File
         </label>
+
         <input id="fileInput" type="file" className="hidden" onChange={(e) => {
           setFile(e.target.files[0]);
           setFile2(URL.createObjectURL(e.target.files[0]));
         }}/>
+
         <button className=" bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="submit" onClick={handleSubmit}>
           {loading ? 'Uploading...' : 'Upload'}
         </button>
+
       </form>
+
+
       {file && (
         <>
-
           <img src={file2} alt="Selected File" className="mt-4 max-w-full h-96" />
         </>
       )}
+
       {fileUrl && (
         <a href={fileUrl} target="_blank" className="mt-4 text-blue-500 underline">
           Check the uploaded file here
         </a>
       )}
-      Address: {address}
-      <Files />
-</div>
 
-{/* <button className=" bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="submit" onClick={whatsMyAddress}>
-   Whats My Address
-    </button>
+      <form className='mt-10'>
+          <div className=''>
+            <input type='file' className='border m-2 p-2' id='customFile' onChange={ onFileChange } />
+          </div>
 
-    <button className=" bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="submit" onClick={()=> retrieve(address)}>
-   get docs
-    </button> */}
-    
+          <input type='button' value='Encrypt' onClick={signature == null || signature == undefined ? null : encrypt } className='border-gray-400 border bg-gray-100 m-5 px-4' />
+          <input type='button' value='Decrypt' onClick={signature == null || signature == undefined ? null : decrypt } className='border-gray-400 border bg-gray-100 m-5 px-4' />
+      </form>
+
+      <button  type="submit" onClick={signMessage} className={` ${signature == null || signature == undefined ? 'bg-red-500 hover:bg-red-700' : 'bg-green-500 hover:bg-green-700'} text-white font-bold py-2 px-4 rounded`}>
+          {signature == null || signature == undefined ? 'Verify your identity' : 'Identity verified'}
+      </button>
+
+
+
+    </div>
       
     </>
   )
