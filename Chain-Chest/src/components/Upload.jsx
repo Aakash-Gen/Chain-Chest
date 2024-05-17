@@ -8,6 +8,7 @@ import encryptFile from '../utils/encryptFile';
 import decryptFile from '../utils/decryptFile';
 import { useNavigate } from 'react-router-dom';
 
+
 function Upload() {
   const navigate = useNavigate();
 
@@ -21,7 +22,6 @@ function Upload() {
   const [ uploadedFile, setUploadedFile ] = useState('');
   const [ filename, setFilename ] = useState('Choose A File');
   const [ signature, setSignature ] = useState(null);
-
 
   const onFileChange = (event) => {
       setUploadedFile((event.target.files[0] !== undefined) ? event.target.files[0] : '');
@@ -58,9 +58,18 @@ function Upload() {
       
       console.log(responseData.data);
       const ipfsHash = responseData.data.IpfsHash;
+      const midIndex = Math.floor(ipfsHash.length / 2);
 
-      await addUploadedFile(address, 'bhsbhbhdbdhdbhbjsbnbsknmabnbsxkjsbkjb');
-      // const fileUrl = "https://gateway.pinata.cloud/ipfs/" + responseData.data.IpfsHash;
+      const ipfsHash1 = ipfsHash.slice(0,midIndex);
+      const ipfsHash2 = ipfsHash.slice(midIndex);
+
+
+      await addUploadedFile(address, ipfsHash1);
+      await addUploadedFile(address, ipfsHash2);
+
+      // await addUploadedFile(address,ipfsHash1,ipfsHash2); 
+
+
       setFileUrl("https://gateway.pinata.cloud/ipfs/" + ipfsHash);
       console.log(ipfsHash);
 
@@ -102,41 +111,6 @@ function Upload() {
     }
   };
 
-  function DocumentsList({ address }) {
-    const [documents, setDocuments] = useState([]);
-    const [error, setError] = useState(null);
-  
-    useEffect(() => {
-      async function fetchDocuments() {
-        try {
-          const result = await retrieve(address);
-          setDocuments(result);
-        } catch (error) {
-          setError(error);
-        }
-      }
-  
-      fetchDocuments();
-    }, [documents]);
-  
-    return (
-      <div>
-        <h1 className="text-2xl font-bold mb-4">Documents List</h1>
-        {error && <p className="text-red-500">Error retrieving documents: {error.message}</p>}
-        {documents.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {documents.map((doc, index) => (
-              <div key={index} className="border p-4 rounded shadow">
-                {doc}
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-gray-500">No documents found.</p>
-        )}
-      </div>
-    );}
-  
   return (
   <>
     <div className="flex flex-col items-center justify-center py-10 pb-[60vh]">
@@ -175,28 +149,31 @@ function Upload() {
         </a>
       )}
 
-      <form className='mt-10'>
+      {/* <form className='mt-10'>
           <div className=''>
             <input type='file' className='border m-2 p-2' id='customFile' onChange={ onFileChange } />
           </div>
 
           <input type='button' value='Encrypt' onClick={signature == null || signature == undefined ? null : encrypt } className='border-gray-400 border bg-gray-100 m-5 px-4' />
           <input type='button' value='Decrypt' onClick={signature == null || signature == undefined ? null : decrypt } className='border-gray-400 border bg-gray-100 m-5 px-4' />
-      </form>
+      </form> */}
 
-      <button  type="submit" onClick={signMessage} className={` ${signature == null || signature == undefined ? 'bg-red-500 hover:bg-red-700' : 'bg-green-500 hover:bg-green-700'} text-white font-bold py-2 px-4 rounded`}>
+      {/* <button  type="submit" onClick={signMessage} className={` ${signature == null || signature == undefined ? 'bg-red-500 hover:bg-red-700' : 'bg-green-500 hover:bg-green-700'} text-white font-bold py-2 px-4 rounded`}>
           {signature == null || signature == undefined ? 'Verify your identity' : 'Identity verified'}
-      </button>
+      </button> */}
 
-      <button onClick={()=>whatsMyAddress(address)} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
+      <button onClick={() => whatsMyAddress(address)} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
         whats my address
       </button>
 
-      <button onClick={()=>retrieve(address)} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
+      <button onClick={() => retrieve(address)} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
         retrieve
       </button>
 
-      <button onClick={() => addUploadedFile(address,'testtttttttttttttttttttttttttttt')} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
+      <button onClick={async () => {
+          await addUploadedFile(address, 'hello');
+          await addUploadedFile(address, 'sup');
+        }} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
         add file
       </button>
 
