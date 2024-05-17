@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from 'react'
 import axios from 'axios';
-import { addUploadedFile, whatsMyAddress, retrieve } from '../contracts/Web3';
+import { addUploadedFile, whatsMyAddress, retrieve, halfExperiment } from '../contracts/Web3';
 // import { v4 as uuidv4 } from 'uuid';
 import Web3 from 'web3';
 import encryptFile from '../utils/encryptFile';
@@ -59,11 +59,17 @@ function Upload() {
       console.log(responseData.data);
       const ipfsHash = responseData.data.IpfsHash;
       const midIndex = Math.floor(ipfsHash.length / 2);
+
       const ipfsHash1 = ipfsHash.slice(0,midIndex);
-      console.log(ipfsHash1);
       const ipfsHash2 = ipfsHash.slice(midIndex);
-      console.log(ipfsHash2);
-      await addUploadedFile(address,ipfsHash1,ipfsHash2); 
+
+
+      await halfExperiment(address,ipfsHash1);
+      await halfExperiment(address,ipfsHash2);
+
+      // await addUploadedFile(address,ipfsHash1,ipfsHash2); 
+
+
       setFileUrl("https://gateway.pinata.cloud/ipfs/" + ipfsHash);
       console.log(ipfsHash);
 
@@ -162,7 +168,10 @@ function Upload() {
         retrieve
       </button>
 
-      <button onClick={() => addUploadedFile(address,'hello','sup')} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
+      <button onClick={async () => {
+          await halfExperiment(address, 'hello');
+          await halfExperiment(address, 'sup');
+        }} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
         add file
       </button>
 
