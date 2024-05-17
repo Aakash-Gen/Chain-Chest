@@ -4,8 +4,6 @@ pragma solidity ^0.8.0;
 contract TokenContract {
     string public name = "ChainLocker";
     string public symbol = "CLOC";
-    // uint8 public decimals = 18;
-    // uint256 public totalSupply = 1000000 * (10 ** uint256(decimals));
 
     mapping(address => string[]) private uploadedFiles;
     mapping(address => mapping(address => string[])) private sharedFiles;
@@ -15,10 +13,6 @@ contract TokenContract {
 
     event Uploaded(address indexed from, string link);
     event Shared(address indexed with, string link);
-
-    // constructor() {
-    //     balanceOf[msg.sender] = totalSupply;
-    // }
 
     function myAddress() public view returns (address) {
         return msg.sender;
