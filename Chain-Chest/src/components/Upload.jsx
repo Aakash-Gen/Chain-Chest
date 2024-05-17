@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from 'react'
 import axios from 'axios';
-import { addUploadedFile, whatsMyAddress, retrieve, halfExperiment } from '../contracts/Web3';
+import { addUploadedFile, whatsMyAddress, retrieve } from '../contracts/Web3';
 // import { v4 as uuidv4 } from 'uuid';
 import Web3 from 'web3';
 import encryptFile from '../utils/encryptFile';
@@ -64,8 +64,8 @@ function Upload() {
       const ipfsHash2 = ipfsHash.slice(midIndex);
 
 
-      await halfExperiment(address,ipfsHash1);
-      await halfExperiment(address,ipfsHash2);
+      await addUploadedFile(address, ipfsHash1);
+      await addUploadedFile(address, ipfsHash2);
 
       // await addUploadedFile(address,ipfsHash1,ipfsHash2); 
 
@@ -147,30 +147,30 @@ function Upload() {
         </a>
       )}
 
-      <form className='mt-10'>
+      {/* <form className='mt-10'>
           <div className=''>
             <input type='file' className='border m-2 p-2' id='customFile' onChange={ onFileChange } />
           </div>
 
           <input type='button' value='Encrypt' onClick={signature == null || signature == undefined ? null : encrypt } className='border-gray-400 border bg-gray-100 m-5 px-4' />
           <input type='button' value='Decrypt' onClick={signature == null || signature == undefined ? null : decrypt } className='border-gray-400 border bg-gray-100 m-5 px-4' />
-      </form>
+      </form> */}
 
-      <button  type="submit" onClick={signMessage} className={` ${signature == null || signature == undefined ? 'bg-red-500 hover:bg-red-700' : 'bg-green-500 hover:bg-green-700'} text-white font-bold py-2 px-4 rounded`}>
+      {/* <button  type="submit" onClick={signMessage} className={` ${signature == null || signature == undefined ? 'bg-red-500 hover:bg-red-700' : 'bg-green-500 hover:bg-green-700'} text-white font-bold py-2 px-4 rounded`}>
           {signature == null || signature == undefined ? 'Verify your identity' : 'Identity verified'}
-      </button>
+      </button> */}
 
-      <button onClick={()=>whatsMyAddress(address)} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
+      <button onClick={() => whatsMyAddress(address)} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
         whats my address
       </button>
 
-      <button onClick={()=>retrieve(address)} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
+      <button onClick={() => retrieve(address)} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
         retrieve
       </button>
 
       <button onClick={async () => {
-          await halfExperiment(address, 'hello');
-          await halfExperiment(address, 'sup');
+          await addUploadedFile(address, 'hello');
+          await addUploadedFile(address, 'sup');
         }} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
         add file
       </button>
