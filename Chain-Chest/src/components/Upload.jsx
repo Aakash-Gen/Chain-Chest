@@ -59,9 +59,11 @@ function Upload() {
       console.log(responseData.data);
       const ipfsHash = responseData.data.IpfsHash;
 
-      await addUploadedFile(address, ipfsHash);
-      const fileUrl = "https://gateway.pinata.cloud/ipfs/" + responseData.data.IpfsHash;
-      setFileUrl(fileUrl);
+      await addUploadedFile(address, 'bhsbhbhdbdhdbhbjsbnbsknmabnbsxkjsbkjb');
+      // const fileUrl = "https://gateway.pinata.cloud/ipfs/" + responseData.data.IpfsHash;
+      setFileUrl("https://gateway.pinata.cloud/ipfs/" + ipfsHash);
+      console.log(ipfsHash);
+
 
     } catch(err){
       console.log(err)
@@ -149,15 +151,15 @@ function Upload() {
           {signature == null || signature == undefined ? 'Verify your identity' : 'Identity verified'}
       </button>
 
-      <button onClick={whatsMyAddress} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
+      <button onClick={()=>whatsMyAddress(address)} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
         whats my address
       </button>
 
-      <button onClick={retrieve} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
+      <button onClick={()=>retrieve(address)} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
         retrieve
       </button>
 
-      <button onClick={() => addUploadedFile('testfile')} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
+      <button onClick={() => addUploadedFile(address,'sup')} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
         add file
       </button>
 

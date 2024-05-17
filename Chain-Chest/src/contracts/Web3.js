@@ -7,22 +7,22 @@ const contract = new web3.eth.Contract(abi, contractAddress);
 
 
 
-export const getBalance = async () => {
+export const getBalance = async (address) => {
 	try {
-		const balance = await web3.eth.getBalance("0x27BE32B99d6E2EdAb04c86Fe862F17BF24006345");
+		const balance = await web3.eth.getBalance(address);
 		console.log('Balance:', balance);
 	} catch (error) {
 		console.error('Error getting balance:', error);
 	}
 }
 
-export const whatsMyAddress = async () => {
+export const whatsMyAddress = async (address) => {
 	try {
-		const address = await contract.methods.myAddress().call({
-			from: "0x7EC8e6614A2E3A1E4d6e321376a608666C8B6f8d"
+		const addressOutput= await contract.methods.myAddress().call({
+			from: address
 		});
 		//   const tx = await contract.methods.addUploadedFile(ipfsHash).call().then(console.log);
-		console.log('My address: ', address);
+		console.log('My address: ', addressOutput);
 	} catch (error) {
 		console.error('Error getting balance:', error);
 	}
@@ -30,13 +30,13 @@ export const whatsMyAddress = async () => {
 
 
 
-export async function addUploadedFile(link) {
+export async function addUploadedFile(address,link) {
 	try {
-		const tx = await contract.methods.addUploadedFile("hemlo").call({
-			from: "0x7EC8e6614A2E3A1E4d6e321376a608666C8B6f8d"
+		await contract.methods.addUploadedFile(link).send({
+			from: address
 		}).then(console.log);
 
-		console.log('Document uploaded:', tx);
+		console.log('Document uploaded:');
 	//   const tx = await contract.methods.addUploadedFile(ipfsHash).call().then(console.log);
 		// console.log('Document uploaded:', tx.transactionHash);
 	} catch (error) {
@@ -45,10 +45,10 @@ export async function addUploadedFile(link) {
 }
 
 
-export async function retrieve() {
+export async function retrieve(address) {
 	try {
 		const ipfsHash = await contract.methods.getMyDocs().call({
-			from: "0x7EC8e6614A2E3A1E4d6e321376a608666C8B6f8d"
+			from: address
 		});
 		// const result = JSON.stringify(ipfsHash.toString());
 		console.log('Document IPFS hash:', ipfsHash);

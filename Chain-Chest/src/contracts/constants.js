@@ -1,50 +1,7 @@
-export const providerUrl = 'https://eth-sepolia.g.alchemy.com/v2/demo';
+export const providerUrl = 'http://127.0.0.1:8545';
 // export const providerUrl = 'https://x2vrsp0j-8545.inc1.devtunnels.ms/';
 
 export const abi = [
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_withWhom",
-				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "_fileName",
-				"type": "string"
-			}
-		],
-		"name": "addSharedFile",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_fileName",
-				"type": "string"
-			}
-		],
-		"name": "addUploadedFile",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
 	{
 		"anonymous": false,
 		"inputs": [
@@ -134,6 +91,49 @@ export const abi = [
 		"type": "event"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_withWhom",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_fileName",
+				"type": "string"
+			}
+		],
+		"name": "addSharedFile",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_fileName",
+				"type": "string"
+			}
+		],
+		"name": "addUploadedFile",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "getMyDocs",
 		"outputs": [
@@ -221,4 +221,4 @@ export const abi = [
 	}
 ]
 
-export const contractAddress = '0x0a630efea9e8f1f2548a40c4fd4c61c2878aea25';
+export const contractAddress = '0x9384c7346cBD48D64219896C39883fA15fEcEb21';
