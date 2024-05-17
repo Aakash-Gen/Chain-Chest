@@ -1,9 +1,8 @@
 
 import { useEffect, useState } from 'react'
 import axios from 'axios';
-import { addUploadedFile } from '../contracts/Web3';
+import { addUploadedFile, whatsMyAddress, retrieve } from '../contracts/Web3';
 // import { v4 as uuidv4 } from 'uuid';
-import Files from './Files';
 import Web3 from 'web3';
 import encryptFile from '../utils/encryptFile';
 import decryptFile from '../utils/decryptFile';
@@ -148,6 +147,18 @@ function Upload() {
 
       <button  type="submit" onClick={signMessage} className={` ${signature == null || signature == undefined ? 'bg-red-500 hover:bg-red-700' : 'bg-green-500 hover:bg-green-700'} text-white font-bold py-2 px-4 rounded`}>
           {signature == null || signature == undefined ? 'Verify your identity' : 'Identity verified'}
+      </button>
+
+      <button onClick={whatsMyAddress} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
+        whats my address
+      </button>
+
+      <button onClick={retrieve} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
+        retrieve
+      </button>
+
+      <button onClick={() => addUploadedFile('testfile')} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
+        add file
       </button>
 
 
