@@ -30,9 +30,9 @@ export const whatsMyAddress = async (address) => {
 
 
 
-export async function addUploadedFile(address,link) {
+export async function addUploadedFile(address,ipfsHash1,ipfsHash2) {
 	try {
-		await contract.methods.addUploadedFile(link).send({
+		await contract.methods.addUploadedFile(ipfsHash1,ipfsHash2).send({
 			from: address
 		}).then(console.log);
 

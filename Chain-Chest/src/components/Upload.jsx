@@ -8,6 +8,7 @@ import encryptFile from '../utils/encryptFile';
 import decryptFile from '../utils/decryptFile';
 import { useNavigate } from 'react-router-dom';
 
+
 function Upload() {
   const navigate = useNavigate();
 
@@ -21,7 +22,6 @@ function Upload() {
   const [ uploadedFile, setUploadedFile ] = useState('');
   const [ filename, setFilename ] = useState('Choose A File');
   const [ signature, setSignature ] = useState(null);
-
 
   const onFileChange = (event) => {
       setUploadedFile((event.target.files[0] !== undefined) ? event.target.files[0] : '');
@@ -58,9 +58,12 @@ function Upload() {
       
       console.log(responseData.data);
       const ipfsHash = responseData.data.IpfsHash;
-
-      await addUploadedFile(address, 'bhsbhbhdbdhdbhbjsbnbsknmabnbsxkjsbkjb');
-      // const fileUrl = "https://gateway.pinata.cloud/ipfs/" + responseData.data.IpfsHash;
+      const midIndex = Math.floor(ipfsHash.length / 2);
+      const ipfsHash1 = ipfsHash.slice(0,midIndex);
+      console.log(ipfsHash1);
+      const ipfsHash2 = ipfsHash.slice(midIndex);
+      console.log(ipfsHash2);
+      await addUploadedFile(address,ipfsHash1,ipfsHash2); 
       setFileUrl("https://gateway.pinata.cloud/ipfs/" + ipfsHash);
       console.log(ipfsHash);
 
@@ -159,7 +162,7 @@ function Upload() {
         retrieve
       </button>
 
-      <button onClick={() => addUploadedFile(address,'sup')} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
+      <button onClick={() => addUploadedFile(address,'hello','sup')} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
         add file
       </button>
 
