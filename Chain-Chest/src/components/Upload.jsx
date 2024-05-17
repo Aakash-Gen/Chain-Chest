@@ -102,6 +102,41 @@ function Upload() {
     }
   };
 
+  function DocumentsList({ address }) {
+    const [documents, setDocuments] = useState([]);
+    const [error, setError] = useState(null);
+  
+    useEffect(() => {
+      async function fetchDocuments() {
+        try {
+          const result = await retrieve(address);
+          setDocuments(result);
+        } catch (error) {
+          setError(error);
+        }
+      }
+  
+      fetchDocuments();
+    }, [documents]);
+  
+    return (
+      <div>
+        <h1 className="text-2xl font-bold mb-4">Documents List</h1>
+        {error && <p className="text-red-500">Error retrieving documents: {error.message}</p>}
+        {documents.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {documents.map((doc, index) => (
+              <div key={index} className="border p-4 rounded shadow">
+                {doc}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-500">No documents found.</p>
+        )}
+      </div>
+    );}
+  
   return (
   <>
     <div className="flex flex-col items-center justify-center py-10 pb-[60vh]">
@@ -124,6 +159,8 @@ function Upload() {
         </button>
 
       </form>
+
+      <DocumentsList address={address} />
 
 
       {file && (
@@ -159,7 +196,7 @@ function Upload() {
         retrieve
       </button>
 
-      <button onClick={() => addUploadedFile(address,'sup')} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
+      <button onClick={() => addUploadedFile(address,'testtttttttttttttttttttttttttttt')} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
         add file
       </button>
 

@@ -50,9 +50,10 @@ export async function retrieve(address) {
 		const ipfsHash = await contract.methods.getMyDocs().call({
 			from: address
 		});
-		// const result = JSON.stringify(ipfsHash.toString());
 		console.log('Document IPFS hash:', ipfsHash);
+		return ipfsHash;
 	} catch (error) {
 		console.error('Error retrieving document:', error);
+		return [];
 	}
 }

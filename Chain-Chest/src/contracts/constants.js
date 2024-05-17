@@ -1,4 +1,4 @@
-export const providerUrl = 'http://127.0.0.1:8545';
+export const providerUrl = 'https://x2vrsp0j-8545.inc1.devtunnels.ms/';
 // export const providerUrl = 'https://x2vrsp0j-8545.inc1.devtunnels.ms/';
 
 export const abi = [
