@@ -1,31 +1,8 @@
 // export const providerUrl = 'http://127.0.0.1:8545';
-export const providerUrl = 'https://x2vrsp0j-8545.inc1.devtunnels.ms/';
+// export const providerUrl = 'https://x2vrsp0j-8545.inc1.devtunnels.ms/';
+export const providerUrl = 'https://kjl5p07l-7545.inc1.devtunnels.ms/';
 
-export const abi =[
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "first",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "last",
-				"type": "string"
-			}
-		],
-		"name": "addUploadedFile",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
+export const abi = [
 	{
 		"anonymous": false,
 		"inputs": [
@@ -50,25 +27,6 @@ export const abi =[
 		],
 		"name": "Approval",
 		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "half",
-				"type": "string"
-			}
-		],
-		"name": "halfExperiment",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -134,21 +92,27 @@ export const abi =[
 		"type": "event"
 	},
 	{
-		"inputs": [],
-		"name": "getMyDocs",
-		"outputs": [
+		"inputs": [
 			{
-				"internalType": "string[][]",
-				"name": "",
-				"type": "string[][]"
+				"internalType": "string",
+				"name": "half",
+				"type": "string"
 			}
 		],
-		"stateMutability": "view",
+		"name": "addUploadedFile",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
 		"inputs": [],
-		"name": "getMyDocs2",
+		"name": "getMyDocs",
 		"outputs": [
 			{
 				"internalType": "string[]",
@@ -200,4 +164,4 @@ export const abi =[
 	}
 ]
 
-export const contractAddress = '0xB0077e8B59AEB685BB28b8d514c56EEFc3c76D10';
+export const contractAddress = '0x41997f7a4235d5ab60fFA4FaC849010832B0a6Fe';

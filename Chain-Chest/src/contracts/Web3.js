@@ -30,24 +30,22 @@ export const whatsMyAddress = async (address) => {
 }
 
 
-
-// export async function addUploadedFile(address,ipfsHash1,ipfsHash2) {
-// 	try {
-// 		await contract.methods.addUploadedFile(ipfsHash1,ipfsHash2).send({
-// 			from: address
-// 		}).then(console.log);
-
-// 		console.log('Document uploaded:');
-// 	//   const tx = await contract.methods.addUploadedFile(ipfsHash).call().then(console.log);
-// 		// console.log('Document uploaded:', tx.transactionHash);
-// 	} catch (error) {
-// 		console.error('Error uploading document:', error);
-// 	}
-// }
-
-export async function halfExperiment(address,ipfsHash1) {
+export async function addUploadedFile(address, ipfsHash1, ipfsHash2, fileName, docType) {
 	try {
-		await contract.methods.halfExperiment(ipfsHash1).send({
+
+		await contract.methods.addUploadedFile(ipfsHash1).send({
+			from: address
+		}).then(console.log);
+
+        await contract.methods.addUploadedFile(ipfsHash2).send({
+			from: address
+		}).then(console.log);
+
+        await contract.methods.addUploadedFile(fileName).send({
+			from: address
+		}).then(console.log);
+
+        await contract.methods.addUploadedFile(docType).send({
 			from: address
 		}).then(console.log);
 
@@ -62,7 +60,7 @@ export async function halfExperiment(address,ipfsHash1) {
 
 export async function retrieve(address) {
 	try {
-		const ipfsHash = await contract.methods.getMyDocs2().call({
+		const ipfsHash = await contract.methods.getMyDocs().call({
 			from: address
 		});
 		// const result = JSON.stringify(ipfsHash.toString());
