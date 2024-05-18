@@ -1,5 +1,5 @@
 import { useState,useEffect } from 'react';
-import { retrieve } from '@/contracts/Web3';
+import { retrieve, shareFile, retrieveSharedFiles } from '@/contracts/Web3';
 import { useNavigate } from 'react-router-dom';
 import Upload from './Upload';
 import { IoMdShare } from "react-icons/io";
@@ -87,7 +87,7 @@ function Platform() {
                 <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
                         {files && files.length > 0 ? (
                             files.map((file, index) => (
-                                <Card key={index} name={file.filename} ipfsHash={file.ipfsHash} />
+                                <Card key={index} name={file.filename} ipfsHash={file.ipfsHash} docType = {file.doctype}/>
                             ))
                     ) : (
                         <p className='text-3xl font-bold flex justify-center items-center'>No files available</p>
@@ -121,6 +121,7 @@ const Card =(props)=>{
         e.target.src = '/src/assets/Landing_icon.jpg';
     }
     const [address, setAddress] = useState("");
+
     useEffect(() => {
         const addressTemp = localStorage.getItem('address');
         if (addressTemp == null) {
@@ -128,6 +129,7 @@ const Card =(props)=>{
         }
         setAddress(addressTemp);
     },[]);
+
     return(
         <div className='bg-gray-100 w-full shadow-md rounded-xl flex flex-col'>
             <div className='h-64 w-full'>
@@ -139,7 +141,8 @@ const Card =(props)=>{
                 <div className='font-semibold text-md'>
                     {props.name}
                 </div>
-                {/* <IoMdShare size={24} onClick={()=>shareFileWith(address,'0x333Ee1E11749921A2f2F9C0BA31d695e3e885689','hello')}/> */}
+                <IoMdShare size={24} onClick={()=>shareFile(address, "0x5A08ebD1d2982f9421d58Ff9af14492217901028", "QmcBu4hJZ4sUcaZGnw5tSLDX", "DMRPtVq7FHQeP6QZVuDUQq", props.name, props.docType)}/>
+                <IoMdShare size={24} onClick={()=>retrieveSharedFiles(address)}/>
                 {/* <DialogDemo /> */}
             </div>
         </div>

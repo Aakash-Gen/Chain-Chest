@@ -71,3 +71,59 @@ export async function retrieve(address) {
 		console.error('Error retrieving document:', error);
 	}
 }
+
+export async function retrieveSharedFiles(address) {
+	try {
+		const output = await contract.methods.getSharedDocs().call({
+			from: address
+		});
+		// const result = JSON.stringify(ipfsHash.toString());
+		console.log('Document IPFS hash:', output);
+
+		return output;
+	} catch (error) {
+		console.error('Error retrieving document:', error);
+	}
+}
+
+
+
+export async function shareFile(address, _with, ipfsHash1, ipfsHash2, fileName, docType) {
+	try {
+		console.log('sharing begins');
+		await contract.methods.shareFilePreprocessor(_with).send({
+			from: address
+		});
+
+		const index = await contract.methods.getshareAddressListForAddressIndex().call({
+			from: _with
+		});
+
+		await contract.methods.shareFileAddIndex(index).send({
+			from: _with
+		});
+
+		await contract.methods.shareFileAddData(ipfsHash1).send({
+			from: _with
+		});
+
+		await contract.methods.shareFileAddData(ipfsHash2).send({
+			from: _with
+		});
+
+		await contract.methods.shareFileAddData(fileName).send({
+			from: _with
+		});
+
+		await contract.methods.shareFileAddData(docType).send({
+			from: _with
+		});
+		
+		// const result = JSON.stringify(ipfsHash.toString());
+		console.log('the index returned:', index);
+
+		return index;
+	} catch (error) {
+		console.error('Error retrieving document:', error);
+	}
+}

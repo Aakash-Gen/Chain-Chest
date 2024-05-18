@@ -1,6 +1,6 @@
 // export const providerUrl = 'http://127.0.0.1:8545';
-// export const providerUrl = 'https://x2vrsp0j-8545.inc1.devtunnels.ms/';
-export const providerUrl = 'https://kjl5p07l-7545.inc1.devtunnels.ms/';
+export const providerUrl = 'https://x2vrsp0j-8545.inc1.devtunnels.ms/';
+// export const providerUrl = 'https://kjl5p07l-7545.inc1.devtunnels.ms/';
 
 export const abi = [
 	{
@@ -69,12 +69,50 @@ export const abi = [
 	{
 		"inputs": [
 			{
+				"internalType": "string",
+				"name": "half",
+				"type": "string"
+			}
+		],
+		"name": "shareFileAddData",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "index",
+				"type": "uint256"
+			}
+		],
+		"name": "shareFileAddIndex",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "address",
 				"name": "_with",
 				"type": "address"
 			}
 		],
-		"name": "shareFile",
+		"name": "shareFilePreprocessor",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -144,6 +182,32 @@ export const abi = [
 	},
 	{
 		"inputs": [],
+		"name": "getShareAddressListForAddress",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getshareAddressListForAddressIndex",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "getSharedDocs",
 		"outputs": [
 			{
@@ -182,6 +246,25 @@ export const abi = [
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "numString",
+				"type": "string"
+			}
+		],
+		"name": "st2num",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "symbol",
 		"outputs": [
@@ -196,4 +279,4 @@ export const abi = [
 	}
 ]
 
-export const contractAddress = '0x50C567339728c1dFBAd9Cb7b5e2AF801D29F4152';
+export const contractAddress = '0x7d595169a21d7254273f8093ccd60bb5030bc5e8';
