@@ -1,5 +1,5 @@
 import { useState,useEffect } from 'react';
-import { retrieve, shareFile, retrieveSharedFiles } from '@/contracts/Web3';
+import { retrieve, shareFile, retrieveSharedFiles, getAddressForIndexAndAddress } from '@/contracts/Web3';
 import { useNavigate } from 'react-router-dom';
 import Upload from './Upload';
 import { IoMdShare } from "react-icons/io";
@@ -10,11 +10,11 @@ import { RxCross2 } from "react-icons/rx";
 
 
 function Platform() {
-    const [files, setFiles] = useState([]);
-    const [address, setAddress] = useState("");
-    const [activeTab, setActiveTab] =  useState("My Files");
+    const [ files, setFiles ] = useState([]);
+    const [ address, setAddress ] = useState("");
+    const [ activeTab, setActiveTab ] =  useState("My Files");
     const navigate = useNavigate();
-    const[popup, setPopup] = useState(false);
+    const[ popup, setPopup ] = useState(false);
 
     const handlePopup= ()=> {
         setPopup(!popup);
@@ -116,6 +116,10 @@ const Tab =(props)=> {
 const Card =(props)=>{
     const navigate= useNavigate();
     const ImageUrl = "https://gateway.pinata.cloud/ipfs/" + props.ipfsHash
+    const ipfsHashFull = props.ipfsHash;
+      const midIndex = Math.floor(ipfsHashFull.length / 2);
+      const ipfsHash1 = ipfsHashFull.slice(0,midIndex);
+      const ipfsHash2 = ipfsHashFull.slice(midIndex);
 
     const handleImageError = (e) => {
         e.target.src = '/src/assets/Landing_icon.jpg';
@@ -141,9 +145,10 @@ const Card =(props)=>{
                 <div className='font-semibold text-md'>
                     {props.name}
                 </div>
-                <IoMdShare size={24} onClick={()=>shareFile(address, "0x5A08ebD1d2982f9421d58Ff9af14492217901028", "QmcBu4hJZ4sUcaZGnw5tSLDX", "DMRPtVq7FHQeP6QZVuDUQq", props.name, props.docType)}/>
-                <IoMdShare size={24} onClick={()=>retrieveSharedFiles(address)}/>
-                {/* <DialogDemo /> */}
+                <IoMdShare size={24} onClick={()=>shareFile(address, "0x5A08ebD1d2982f9421d58Ff9af14492217901028", ipfsHash1,ipfsHash2, props.name, props.docType)}/>
+                <IoMdShare size={24} onClick={()=>retrieveSharedFiles("0x5A08ebD1d2982f9421d58Ff9af14492217901028")}/>
+                <IoMdShare size={24} onClick={()=>getAddressForIndexAndAddress("0x5A08ebD1d2982f9421d58Ff9af14492217901028", '0')}/>
+                <DialogDemo/>
             </div>
         </div>
     )

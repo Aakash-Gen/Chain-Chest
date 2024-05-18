@@ -1,6 +1,7 @@
 import {Web3} from 'web3';
 import { providerUrl, abi, contractAddress } from './constants';
-import { combinePairs, mapDocuments } from '../utils/combinePairs';
+import { mapDocuments } from '../utils/combinePairs';
+import { combinePairsForSharedFiles } from '../utils/combinePairsForSharedFiles';
 
 
 const web3 = new Web3(providerUrl);
@@ -74,15 +75,31 @@ export async function retrieve(address) {
 
 export async function retrieveSharedFiles(address) {
 	try {
+		console.log('retrieving shared files')
 		const output = await contract.methods.getSharedDocs().call({
 			from: address
 		});
 		// const result = JSON.stringify(ipfsHash.toString());
-		console.log('Document IPFS hash:', output);
+		console.log('Document IPFS hash:', await combinePairsForSharedFiles(output, address));
+
+		return await combinePairsForSharedFiles(output, address);
+	} catch (error) {
+		console.error('Error retrieving document:', error);
+	}
+}
+
+
+export async function getAddressForIndexAndAddress(address, index) {
+	try {
+		const output = await contract.methods.addressForIndexAndAddress(index).call({
+			from: address
+		});
+		// const result = JSON.stringify(ipfsHash.toString());
+		console.log('the address for given index is :', output);
 
 		return output;
 	} catch (error) {
-		console.error('Error retrieving document:', error);
+		console.error('Error in getAddressForIndexAndAddress: ', error);
 	}
 }
 
