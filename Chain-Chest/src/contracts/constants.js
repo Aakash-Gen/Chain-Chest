@@ -1,8 +1,8 @@
 // export const providerUrl = 'http://127.0.0.1:8545';
-// export const providerUrl = 'https://x2vrsp0j-8545.inc1.devtunnels.ms/';
-export const providerUrl = 'https://kjl5p07l-7545.inc1.devtunnels.ms/';
+export const providerUrl = 'https://x2vrsp0j-8545.inc1.devtunnels.ms/';
+// export const providerUrl = 'https://kjl5p07l-7545.inc1.devtunnels.ms/';
 
-export const abi = [
+export const abi =[
 	{
 		"inputs": [
 			{
@@ -67,25 +67,6 @@ export const abi = [
 		"type": "event"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_with",
-				"type": "address"
-			}
-		],
-		"name": "shareFile",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -144,19 +125,6 @@ export const abi = [
 	},
 	{
 		"inputs": [],
-		"name": "getSharedDocs",
-		"outputs": [
-			{
-				"internalType": "string[]",
-				"name": "",
-				"type": "string[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
 		"name": "myAddress",
 		"outputs": [
 			{
@@ -196,4 +164,4 @@ export const abi = [
 	}
 ]
 
-export const contractAddress = '0x50C567339728c1dFBAd9Cb7b5e2AF801D29F4152';
+export const contractAddress = '0x468D1973155C7d4a42ef20748b8F4af0C98FF9e1';
