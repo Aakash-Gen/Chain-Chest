@@ -69,7 +69,7 @@ function Upload() {
       const ipfsHash2 = ipfsHash.slice(midIndex);
 
 
-      await addUploadedFile(address, ipfsHash1, ipfsHash2, 'my photo', 'image');
+      await addUploadedFile(address, ipfsHash1, ipfsHash2, name, docType);
 
       // await addUploadedFile(address,ipfsHash1,ipfsHash2); 
 
@@ -146,6 +146,9 @@ function Upload() {
           setFile(e.target.files[0]);
           setFile2(URL.createObjectURL(e.target.files[0]));
         }}/>
+
+        <input className='bg-gray-200' type="text" placeholder='FileName' onChange={(e)=>setName(e.target.value)} />
+        <input className='bg-gray-200' type="text" placeholder='DocType' onChange={(e)=>setDocType(e.target.value)} />
 
         <button className=" bg-black   hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" type="submit" onClick={handleSubmit}>
           {loading ? 'Uploading...' : 'Upload'}

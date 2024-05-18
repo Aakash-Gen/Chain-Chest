@@ -1,6 +1,6 @@
 import {Web3} from 'web3';
 import { providerUrl, abi, contractAddress } from './constants';
-import { combinePairs } from '../utils/combinePairs';
+import { combinePairs, mapDocuments } from '../utils/combinePairs';
 
 
 const web3 = new Web3(providerUrl);
@@ -64,9 +64,9 @@ export async function retrieve(address) {
 			from: address
 		});
 		// const result = JSON.stringify(ipfsHash.toString());
-		console.log('Document IPFS hash:', combinePairs(ipfsHash));
+		console.log('Document IPFS hash:', mapDocuments(ipfsHash));
 
-		return combinePairs(ipfsHash);
+		return mapDocuments(ipfsHash);
 	} catch (error) {
 		console.error('Error retrieving document:', error);
 	}
