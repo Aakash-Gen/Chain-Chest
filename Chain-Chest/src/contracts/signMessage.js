@@ -1,28 +1,31 @@
 import Web3 from 'web3';
+import {ethers} from 'ethers';
 
-const signMessage = async (address) => {
+export const signMessageAndVerify = async (address) => {
     try {
-
       const message = "Sign this message to verify your identiy. "
-      const hashedMessage = Web3.utils.sha3(message);
+    //   const hashedMessage = Web3.utils.sha3(message);
+
+      const accounts = (await window.ethereum.request({
+        method: "eth_requestAccounts",
+      }));
+
+      // account will be the signer of this message
+      const account = accounts[0];
+      console.log({address});
 
       const signature = await window.ethereum.request(
         { 
             method: "personal_sign", 
-            params: [message, address] 
+            params: [message, account] 
         }
       );
 
-      console.log({ message });
-
-      // split signature
-      const r = signature.slice(0, 66);
-      const s = "0x" + signature.slice(66, 130);
-      const v = parseInt(signature.slice(130, 132), 16);
-      console.log({ r, s, v });
+      const recoveredAddress = ethers.verifyMessage(message, signature);
+      console.log({recoveredAddress});
 
 
-      return signature;
+      return recoveredAddress == address;
     } catch (error) {
         console.error(error);
     }
