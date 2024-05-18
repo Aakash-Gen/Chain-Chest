@@ -7,6 +7,8 @@ import { whatsMyAddress, retrieve, halfExperiment } from '../contracts/Web3';
 // import encryptFile from '../utils/encryptFile';
 // import decryptFile from '../utils/decryptFile';
 import { useNavigate } from 'react-router-dom';
+import { MdOutlineDownloading } from "react-icons/md";
+
 
 
 function Upload() {
@@ -40,24 +42,33 @@ function Upload() {
     }
     setAddress(addressTemp);
   },[]);
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+    setFile2(URL.createObjectURL(e.target.files[0]));
+    handleSubmit(); 
+  };
   
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log('Selected option:', selectedOption);
+    if (e) e.preventDefault();
     setLoading(true);
-    try{
+
+    if (!file) return;
+    console.log('Selected option:', selectedOption);
+    try {
       const fileData = new FormData();
-      fileData.append("file", file); 
+      fileData.append("file", file);
 
       const responseData = await axios({
         method: "post",
         url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
         data: fileData,
         headers: {
-          Authorization: `Bearer ${import.meta.env.VITE_PINATA_JWT}`,  
-
+          Authorization: `Bearer ${import.meta.env.VITE_PINATA_JWT}`,
         }
-      })
+      });
+
+     
       
       console.log(responseData.data);
       const ipfsHash = responseData.data.IpfsHash;
@@ -125,36 +136,33 @@ function Upload() {
             
       <form className=" gap-4 ">
 
-      <div className='flex justify-around items-baseline  mb-10'>
+      <div className='flex justify-start gap-4 items-baseline  mb-4'>
       <label htmlFor="fileType" className='font-medium'>Choose a file type:</label>
-      <select id="fileType" value={selectedOption} onChange={handleChange2} className='w-28 bg-gray-100 px-4 py-2 rounded-sm'>
-        <option value="">Choose</option>
+      <select id="fileType" value={selectedOption} onChange={handleChange2} className='w-28 bg-gray-200 px-4 py-2 rounded-sm'>
+        <option value="">Select</option>
         <option value="Images">Images</option>
         <option value="PDF">PDF</option>
         <option value="Certificates">Certificates</option>
         <option value="eSign">eSign</option>
       </select>
-      <button type="submit" className='px-4 py-2 bg-black text-white rounded-[1vh] cursor-pointer'>Submit</button>
       </div>
 
       <div>
-      <label htmlFor="fileType" className='font-medium'>Enter file name:</label>
-
+      <label htmlFor="fileType" className='font-medium mr-6'>Enter file name:</label>
+      <input id="filename" type="text" className='bg-gray-200 px-4 py-2 rounded-sm m-3'/>
       </div>
 
-        
-        <label htmlFor="fileInput" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer mr-20">
-          Choose File
+        <div className='flex justify-center ml-16  items-center pt-6'>
+        <label htmlFor="fileInput" className="bg-black  hover:bg-gray-700 text-white font-bold py-2 px-4 rounded cursor-pointer mr-20 ">
+          Upload File
         </label>
 
-        <input id="fileInput" type="file" className="hidden" onChange={(e) => {
-          setFile(e.target.files[0]);
-          setFile2(URL.createObjectURL(e.target.files[0]));
-        }}/>
+        <input id="fileInput" type="file" className="hidden" onChange={handleFileChange} />
 
-        <button className=" bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-24 " type="submit" onClick={handleSubmit}>
-          {loading ? 'Uploading...' : 'Upload'}
-        </button>
+        {loading && <p className='text-black text-sm'>uploading</p>}
+
+        </div>
+       
 
       </form>
 
@@ -194,16 +202,17 @@ function Upload() {
         retrieve
       </button>
 
-      <button onClick={async () => {
-          await addUploadedFile(address, 'hello');
-          await addUploadedFile(address, 'sup');
-        }} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
-        add file
-      </button>
-
-
-
+    
     </div>
+
+    <div className='flex justify-end'>
+      <button onClick={async () => {
+          await halfExperiment(address, 'hello');
+          await halfExperiment(address, 'sup');
+        }} className='bg-purple-700 text-white font-semibold  rounded-sm hover:bg-purple-500 px-4 py-2 border  m-5'>
+        Add File
+      </button>
+      </div>
       
     </>
   )

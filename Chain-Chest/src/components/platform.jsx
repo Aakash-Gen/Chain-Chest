@@ -120,12 +120,10 @@ const Tab =(props)=> {
 const Card =(props)=>{
     const navigate= useNavigate();
     const ImageUrl = "https://gateway.pinata.cloud/ipfs/" + props.ipfsHash
-<<<<<<< HEAD
 
     const handleImageError = (e) => {
         e.target.src = '/src/assets/Landing_icon.jpg';
     }
-=======
     const [address, setAddress] = useState("");
     useEffect(() => {
         const addressTemp = localStorage.getItem('address');
@@ -134,7 +132,6 @@ const Card =(props)=>{
         }
         setAddress(addressTemp);
     },[]);
->>>>>>> 7610e10bfbe016ffdd8c619b410dee97ca7790af
     return(
         <div className='bg-gray-100 w-full shadow-md rounded-xl flex flex-col'>
             <div className='h-64 w-full'>
