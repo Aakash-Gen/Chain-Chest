@@ -10,17 +10,21 @@ function Platform() {
     const [address, setAddress] = useState("");
     const [activeTab, setActiveTab] =  useState("My Files");
     const navigate = useNavigate();
+    
     const handleTabChange =(tabName)=>{
         setActiveTab(tabName)
     }
+
     useEffect(() => {
         const addressTemp = localStorage.getItem('address');
         if (addressTemp == null) {
           navigate('/login');
         }
         setAddress(addressTemp);
-      },[]);
-      useEffect(() => {
+    },[]);
+
+
+    useEffect(() => {
         const fetchFiles = async () => {
             try {
                 const retrievedFiles = await retrieve(address);
@@ -33,35 +37,41 @@ function Platform() {
             fetchFiles();
         }
     }, [address,activeTab]);
+
+
     return (
-    <div className='w-full h-auto p-8'>
-        <div className='h-[70px] bg-gray-200 rounded-lg flex text-center p-2 gap-4 mb-16'>
-            <Tab name="My Files" active={activeTab==="My Files"} onClick={()=>handleTabChange("My Files")} />
-            <Tab name="Upload" active={activeTab==="Upload"} onClick={()=>handleTabChange("Upload")} />
-        </div>
-        {activeTab==="My Files" ? (
-            <div className='grid grid-cols-5 ml-12 '>
-            {files && files.length > 0 ? (
-              files.map((file, index) => (
-                <Card key={index} ipfsHash={file} />
-              ))
-            ) : (
-              <p className='text-3xl font-bold flex justify-center items-center'>No files available</p>
-            )}
+        <div className='h-auto px-4 sm:px-6 md:px-10 lg:px-14 py-8'>
+            
+            <div className='h-9 w-48 sm:w-72 bg-gray-200 rounded-lg flex sm:gap-5 p-1 mb-6'>
+                <Tab name="My Files" active={activeTab==="My Files"} onClick={()=>handleTabChange("My Files")} />
+                <Tab name="Upload" active={activeTab==="Upload"} onClick={()=>handleTabChange("Upload")} />
             </div>
-            ):( 
-                <div>
-                    <Upload/>
+
+
+            {activeTab==="My Files" ? (
+                <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+                        {files && files.length > 0 ? (
+                            files.map((file, index) => (
+                                <Card key={index} ipfsHash={file} />
+                            ))
+                    ) : (
+                        <p className='text-3xl font-bold flex justify-center items-center'>No files available</p>
+                    )}
                 </div>
-            )}
-    </div>
+                ):( 
+                    <div>
+                        <Upload/>
+                    </div>
+                )
+            }
+        </div>
   )
 }
 
 const Tab =(props)=> {
     const tabClass = props.active ? 'bg-white' : 'bg-gray-200';
     return(
-        <div className={`w-[50%] flex items-center justify-center text-2xl font-semibold rounded-md cursor-pointer ${tabClass}`} onClick={props.onClick}>
+        <div className={`w-[50%] flex items-center justify-center rounded-md cursor-pointer ${tabClass}`} onClick={props.onClick}>
             {props.name}
         </div>
 
@@ -71,8 +81,8 @@ const Tab =(props)=> {
 const Card =(props)=>{
     const ImageUrl = "https://gateway.pinata.cloud/ipfs/" + props.ipfsHash
     return(
-        <div className='bg-gray-100 w-64 mb-10 shadow-md rounded-xl flex flex-col'>
-            <div className='h-64 w-64'>
+        <div className='bg-gray-100 w-full shadow-md rounded-xl flex flex-col'>
+            <div className='h-64 w-full'>
                 {ImageUrl ? (
                     <img className='w-full h-full object-cover rounded-t-xl' src={ImageUrl} alt="imagePreview" />
                 ):(
@@ -81,8 +91,8 @@ const Card =(props)=>{
                     </h1>
                 )}
             </div>
-            <div className='flex justify-between py-2 items-center mr-2 ml-24'>
-                <div className='font-semibold text-xl'>
+            <div className='flex justify-between py-2 items-center px-4'>
+                <div className='font-semibold text-md'>
                     View
                 </div>
                 {/* <IoMdShare size={24}/> */}

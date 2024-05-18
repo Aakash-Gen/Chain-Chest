@@ -1,11 +1,10 @@
 
 import { BrowserRouter, Routes, Route}  from 'react-router-dom'
-import Sidebar from "./components/Sidebar.jsx"
+import AppBar from "./components/AppBar.jsx"
 import Upload from "./components/Upload.jsx"
 import About from "./components/About.jsx"
 import Login from "./components/Login.jsx"
 import Home from "./components/Home.jsx"
-import Footer from "./components/Footer.jsx"
 import Platform from './components/platform.jsx'
 
 
@@ -19,7 +18,7 @@ function App() {
 
    <BrowserRouter>
 
-   <Sidebar />
+   <AppBar />
 
    <Routes>
       <Route path="/" element={<Home />} />
@@ -29,7 +28,6 @@ function App() {
       <Route path='/platform' element={<Platform/>}/>
      </Routes>
     
-    <Footer/>
 
      </BrowserRouter>
 
