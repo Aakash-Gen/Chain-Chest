@@ -18,9 +18,12 @@ function Upload() {
   const[fileUrl, setFileUrl] =useState("");
   const [loading, setLoading] = useState(false);
   const [address, setAddress] = useState("");
+  const [name,setName] = useState("");
+  const [docType, setDocType] = useState("");
 
   const handleChange2 = (event) => {
     setSelectedOption(event.target.value);
+    setDocType(event.target.value)
   };
 
 
@@ -70,6 +73,7 @@ function Upload() {
 
 
       await addUploadedFile(address, ipfsHash1, ipfsHash2, name, docType);
+
 
       // await addUploadedFile(address,ipfsHash1,ipfsHash2); 
 
@@ -134,7 +138,7 @@ function Upload() {
 
       <div>
       <label htmlFor="fileType" className='font-medium mr-6'>Enter file name:</label>
-      <input id="filename" type="text" className='bg-gray-200 px-4 py-2 rounded-sm m-3'/>
+      <input id="filename" type="text" onChange={(e)=>setName(e.target.value)} className='bg-gray-200 px-4 py-2 rounded-sm m-3'/>
       </div>
         
         <div className='flex justify-center gap-5 pt-4'>
@@ -146,9 +150,6 @@ function Upload() {
           setFile(e.target.files[0]);
           setFile2(URL.createObjectURL(e.target.files[0]));
         }}/>
-
-        <input className='bg-gray-200' type="text" placeholder='FileName' onChange={(e)=>setName(e.target.value)} />
-        <input className='bg-gray-200' type="text" placeholder='DocType' onChange={(e)=>setDocType(e.target.value)} />
 
         <button className=" bg-black   hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" type="submit" onClick={handleSubmit}>
           {loading ? 'Uploading...' : 'Upload'}
