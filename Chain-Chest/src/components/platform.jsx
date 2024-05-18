@@ -1,15 +1,14 @@
 import { useState,useEffect } from 'react';
-import { retrieve, shareFile, retrieveSharedFiles, getAddressForIndexAndAddress } from '@/contracts/Web3';
+import { retrieve, shareFile, retrieveSharedFiles } from '@/contracts/Web3';
 import { useNavigate } from 'react-router-dom';
 import Upload from './Upload';
 import { IoMdShare } from "react-icons/io";
 import { DialogDemo } from './demo/DialogDemo';
 import { MdSmsFailed } from "react-icons/md";
-import SharedFiles from './SharedFiles';
 import { RxCross2 } from "react-icons/rx";
 
 
-const Division = ({files,docType}) =>{
+const Division = ({files, docType, address}) =>{
     
     return(
         <>
@@ -20,7 +19,7 @@ const Division = ({files,docType}) =>{
                         files
                             .filter(file => file.doctype === docType)
                             .map((file, index) => (
-                                <Card key={index} name={file.filename} ipfsHash={file.ipfsHash} type={file.doctype} />
+                                <Card key={index} name={file.filename} ipfsHash={file.ipfsHash} type={file.doctype} address={address} docType={file.doctype}/>
                             ))
                         ) : (
                     <p className='text-lg text-gray-500  flex justify-center items-center'>No files </p>
@@ -31,13 +30,35 @@ const Division = ({files,docType}) =>{
 
 
     );
-
+};
+const SharedDivision = ({sharedfiles, docType, address}) =>{
     
+    return(
+        <>
+            <h1 className='text-xl font-semibold mx-10 '>{docType}</h1>
+
+                <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-5'>
+                    {sharedfiles && sharedfiles.length > 0 ? (
+                        sharedfiles
+                            .filter(sharedfile => sharedfile.doctype === docType)
+                            .map((sharedfile, index) => (
+                                <Card key={index} name={sharedfile.filename} ipfsHash={sharedfile.ipfsHash} type={sharedfile.doctype} address={address} docType={sharedfile.doctype}/>
+                            ))
+                        ) : (
+                    <p className='text-lg text-gray-500  flex justify-center items-center'>No files </p>
+                )}
+
+            </div>
+        </>
+
+
+    );
 };
 
 
 function Platform() {
     const [ files, setFiles ] = useState([]);
+    const [sharedFiles, setSharedFiles] = useState([]);
     const [ address, setAddress ] = useState("");
     const [ activeTab, setActiveTab ] =  useState("My Files");
     const navigate = useNavigate();
@@ -65,11 +86,20 @@ function Platform() {
         const fetchFiles = async () => {
             try {
                 const retrievedFiles = await retrieve(address)
-                // console.log('Documents:', retrievedFiles);
-                // const ipfsHashes = retrievedFiles.map(doc => doc.ipfsHash);
-                // console.log('IPFS Hashes:', ipfsHashes);
                 setFiles(retrievedFiles);
-                // setFiles(retrievedFiles)
+            } catch (error) {
+                console.error('Error retrieving files:', error);
+            }
+        };
+        if (address !== "") {
+            fetchFiles();
+        }
+    }, [address,activeTab]);
+    useEffect(() => {
+        const fetchFiles = async () => {
+            try {
+                const retrievedFiles = await retrieveSharedFiles(address)
+                setSharedFiles(retrievedFiles);
             } catch (error) {
                 console.error('Error retrieving files:', error);
             }
@@ -79,25 +109,18 @@ function Platform() {
         }
     }, [address,activeTab]);
 
-
     return (
         <div className='h-auto px-4 sm:px-6 md:px-10 lg:px-14 py-8'>
             <div className='flex justify-between m-10 items-baseline'>
-            
-            <div className='h-9 w-48 sm:w-72 bg-gray-200 rounded-lg flex sm:gap-5 p-1 '>
-                <Tab name="My Files" active={activeTab==="My Files"} onClick={()=>handleTabChange("My Files")} />
-                <Tab name="Shared Files" active={activeTab==="Shared Files"} onClick={()=>handleTabChange("Shared Files")} />
-            </div>
-
-           
-
-            {activeTab !== "Shared Files" && (
-        <div className='px-8 py-2 bg-black text-white rounded-[1vh] cursor-pointer' onClick={handlePopup}>
-          Add Files
-        </div>)}
-
-            {popup &&
-             (
+                <div className='h-9 w-48 sm:w-72 bg-gray-200 rounded-lg flex sm:gap-5 p-1 '>
+                    <Tab name="My Files" active={activeTab==="My Files"} onClick={()=>handleTabChange("My Files")} />
+                    <Tab name="Shared Files" active={activeTab==="Shared Files"} onClick={()=>handleTabChange("Shared Files")} />
+                </div>
+                {activeTab !== "Shared Files" && (
+                    <div className='px-8 py-2 bg-black text-white rounded-[1vh] cursor-pointer' onClick={handlePopup}>
+                      Add Files
+                    </div>)}
+                {popup && (
                 <>
                     <div className='fixed inset-0 bg-black opacity-50 z-30'></div>
                     <div className='absolute top-1/2 bg-gray-50 px-8 py-4 rounded-lg left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-40 w-[60vh]'>
@@ -105,7 +128,6 @@ function Platform() {
                             <div className='text-2xl font-medium'>Add Files</div>
                             <RxCross2 className='size-5 cursor-pointer' onClick={handlePopup} />
                         </div>
-                        
                         <Upload/>
                     </div>
                 </>
@@ -113,21 +135,22 @@ function Platform() {
             </div>
 
 
-            {activeTab==="My Files" ? (
+            {activeTab==="My Files" && (
                 <>
-                    <Division files={files} docType="Images" />
-                    <Division files={files} docType="PDF" />
-                    <Division files={files} docType="Certificates" />
-                    <Division files={files} docType="eSign" />
+                    <Division address={address} files={files} docType="Images" />
+                    <Division address={address} files={files} docType="PDF" />
+                    <Division address={address} files={files} docType="Certificates" />
+                    <Division address={address} files={files} docType="eSign" />
+                </>
+            )} 
+            {activeTab==="Shared Files" && ( 
+                <>
+                    <SharedDivision address={address} sharedfiles={sharedFiles} docType="Images" />
+                    <SharedDivision address={address} sharedfiles={sharedFiles} docType="PDF" />
+                    <SharedDivision address={address} sharedfiles={sharedFiles} docType="Certificates" />
+                    <SharedDivision address={address} sharedfiles={sharedFiles} docType="eSign" />
                 </> 
-                
-            
-            ):( 
-                    <div>
-                        <SharedFiles/>
-                    </div>
-                )
-            }
+            )}
         </div>
   )
 }
@@ -143,26 +166,15 @@ const Tab =(props)=> {
 }
 
 const Card =(props)=>{
-    const navigate= useNavigate();
     const ImageUrl = "https://gateway.pinata.cloud/ipfs/" + props.ipfsHash
     const ipfsHashFull = props.ipfsHash;
-      const midIndex = Math.floor(ipfsHashFull.length / 2);
-      const ipfsHash1 = ipfsHashFull.slice(0,midIndex);
-      const ipfsHash2 = ipfsHashFull.slice(midIndex);
+    const midIndex = Math.floor(ipfsHashFull.length / 2);
+    const ipfsHash1 = ipfsHashFull.slice(0,midIndex);
+    const ipfsHash2 = ipfsHashFull.slice(midIndex);
 
     const handleImageError = (e) => {
         e.target.src = '/src/assets/Landing_icon.jpg';
     }
-    const [address, setAddress] = useState("");
-
-    useEffect(() => {
-        const addressTemp = localStorage.getItem('address');
-        if (addressTemp == null) {
-          navigate('/login');
-        }
-        setAddress(addressTemp);
-    },[]);
-
     return(
         <div className='bg-gray-100 w-full shadow-md rounded-xl flex flex-col'>
             
@@ -175,10 +187,10 @@ const Card =(props)=>{
                     <div className='font-semibold text-md' >
                         {props.name}
                     </div>
-                    <IoMdShare size={24} onClick={()=>shareFile(address, "0x5A08ebD1d2982f9421d58Ff9af14492217901028", ipfsHash1,ipfsHash2, props.name, props.docType)}/>
-                    <IoMdShare size={24} onClick={()=>retrieveSharedFiles("0x5A08ebD1d2982f9421d58Ff9af14492217901028")}/>
-                    <IoMdShare size={24} onClick={()=>getAddressForIndexAndAddress("0x5A08ebD1d2982f9421d58Ff9af14492217901028", '0')}/>
-                    <DialogDemo/>
+                    {/* <IoMdShare size={24} onClick={()=>shareFile(address, "0x5A08ebD1d2982f9421d58Ff9af14492217901028", ipfsHash1,ipfsHash2, props.name, props.docType)}/> */}
+                    {/* <IoMdShare size={24} onClick={()=>retrieveSharedFiles("0x5A08ebD1d2982f9421d58Ff9af14492217901028")}/> */}
+                    {/* <IoMdShare size={24} onClick={()=>getAddressForIndexAndAddress("0x5A08ebD1d2982f9421d58Ff9af14492217901028", '0')}/> */}
+                    <DialogDemo address={props.address}  ipfshash1={ipfsHash1} ipfshash2 ={ipfsHash2} fileName={props.name} docType={props.docType} />
                 </a>
             </div>
         </div>

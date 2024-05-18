@@ -12,12 +12,15 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { IoMdShare } from "react-icons/io";
 import { shareFile } from '@/contracts/Web3';
-import {useState} from 'react';
+import {useState,useEffect} from 'react';
+import { useNavigate } from "react-router-dom";
+import { retrieve } from "@/contracts/Web3";
 
  
 export function DialogDemo(props) {
   // const [address, setAddress] = useState("");
   // const navigate = useNavigate();
+  // // const [files,setFiles] = useState("");
   
   // useEffect(() => {
   //     const addressTemp = localStorage.getItem('address');
@@ -28,14 +31,16 @@ export function DialogDemo(props) {
   // },[]);
   const [sharedAddress,setSharedAddress] = useState("");
 
+
   const handleShare = () => {
-    shareFile(props.address, sharedAddress, props.fileName, props.docType);
+    shareFile(props.address, sharedAddress, props.ipfshash1, props.ipfsHash2, props.fileName, props.docType);
   }
 
   return (
     <Dialog>
       <DialogTrigger asChild>
         <IoMdShare size={24} className="hover:cursor-pointer"/>
+        {/* <h1>hi</h1> */}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
@@ -47,6 +52,7 @@ export function DialogDemo(props) {
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="withAddress" className="text-right">
+              address
             </Label>
             <Input
               id="withAddress"
@@ -58,7 +64,7 @@ export function DialogDemo(props) {
           </div>
         </div>
         <DialogFooter>
-          <Button onclick={handleShare}type="submit">Send</Button>
+          <Button onClick={handleShare} type="submit">Send</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
