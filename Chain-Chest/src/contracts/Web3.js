@@ -30,104 +30,46 @@ export const whatsMyAddress = async (address) => {
 }
 
 
-export async function addUploadedFile(address,ipfsHash1,ipfsHash2, fileName, docType) {
+
+// export async function addUploadedFile(address,ipfsHash1,ipfsHash2) {
+// 	try {
+// 		await contract.methods.addUploadedFile(ipfsHash1,ipfsHash2).send({
+// 			from: address
+// 		}).then(console.log);
+
+// 		console.log('Document uploaded:');
+// 	//   const tx = await contract.methods.addUploadedFile(ipfsHash).call().then(console.log);
+// 		// console.log('Document uploaded:', tx.transactionHash);
+// 	} catch (error) {
+// 		console.error('Error uploading document:', error);
+// 	}
+// }
+
+export async function halfExperiment(address,ipfsHash1) {
 	try {
-		await contract.methods.addUploadedFileFirstHalf(ipfsHash1).send({
+		await contract.methods.halfExperiment(ipfsHash1).send({
 			from: address
-		});
-
-		await contract.methods.addUploadedFileSecondHalf(ipfsHash2).send({
-			from: address
-		});
-
-		await contract.methods.addUploadedFileThirdHalf(fileName, docType).send({
-			from: address
-		});
+		}).then(console.log);
 
 		console.log('Document uploaded:');
+	//   const tx = await contract.methods.addUploadedFile(ipfsHash).call().then(console.log);
+		// console.log('Document uploaded:', tx.transactionHash);
 	} catch (error) {
 		console.error('Error uploading document:', error);
 	}
 }
 
-export async function addUploadedFileTest(address,ipfsHash1) {
-	try {
-		await contract.methods.addUploadedFileFirstHalf(ipfsHash1).send({
-			from: address
-		});
-		console.log('Document uploaded:');
-	} catch (error) {
-		console.error('Error uploading document:', error);
-	}
-}
 
 export async function retrieve(address) {
 	try {
-		const output = await contract.methods.getMyDocs().call({
+		const ipfsHash = await contract.methods.getMyDocs2().call({
 			from: address
 		});
 		// const result = JSON.stringify(ipfsHash.toString());
-		console.log('Retrieved documents:', output);
+		console.log('Document IPFS hash:', combinePairs(ipfsHash));
 
-		return combinePairs(output);
+		return combinePairs(ipfsHash);
 	} catch (error) {
 		console.error('Error retrieving document:', error);
-		return [];
 	}
 }
-
-
-export async function shareFileWith(address, hash1, hash2, withAddress, fileName, docType) {
-	try {
-
-		await contract.methods.shareFileAddAddress(withAddress).send({
-			from: address
-		});
-
-		await contract.methods.shareFileAddFirstHash(hash1).send({
-			from: withAddress
-		});
-
-		const output = await contract.methods.shareFileAddFirstHash(hash2, fileName, docType).send({
-			from: withAddress
-		});
-
-		// const result = JSON.stringify(ipfsHash.toString());
-		console.log('Shared the file:', output);
-	} catch (error) {
-		console.error('Error retrieving document:', error);
-		return [];
-	}
-}
-
-export async function retrieveSharedFiles(address) {
-	try {
-		const output = await contract.methods.getSharedDocs().call({
-			from: address
-		});
-		// const result = JSON.stringify(ipfsHash.toString());
-		console.log('Shared Docs output:', combinePairs(output));
-		return output;
-	} catch (error) {
-		console.error('Error retrieving document:', error);
-		return [];
-	}
-}
-
-export async function testFunction(address) {
-	try {
-		const output = await contract.methods.addUploadedFiletest1('QmQN2rxrGUe4o1FvTCveewTS').send({
-			from: address
-		});
-		// const result = JSON.stringify(ipfsHash.toString());
-		console.log('test succeeded:', combinePairs(output));
-		return output;
-	} catch (error) {
-		console.error('Error retrieving document:', error);
-		return [];
-	}
-}
-
-
-
-

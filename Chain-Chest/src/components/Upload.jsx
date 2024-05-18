@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from 'react'
 import axios from 'axios';
-import { addUploadedFile, whatsMyAddress, retrieve } from '../contracts/Web3';
+import { whatsMyAddress, retrieve, halfExperiment } from '../contracts/Web3';
 // import { v4 as uuidv4 } from 'uuid';
 // import Web3 from 'web3';
 // import encryptFile from '../utils/encryptFile';
@@ -64,8 +64,8 @@ function Upload() {
       const ipfsHash2 = ipfsHash.slice(midIndex);
 
 
-      await addUploadedFile(address, ipfsHash1);
-      await addUploadedFile(address, ipfsHash2);
+      await halfExperiment(address, ipfsHash1);
+      await halfExperiment(address, ipfsHash2);
 
       // await addUploadedFile(address,ipfsHash1,ipfsHash2); 
 

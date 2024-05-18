@@ -1,5 +1,5 @@
 import { useState,useEffect } from 'react';
-import { retrieve, shareFileWith } from '@/contracts/Web3';
+import { retrieve } from '@/contracts/Web3';
 import { useNavigate } from 'react-router-dom';
 import Upload from './Upload';
 import { IoMdShare } from "react-icons/io";
@@ -104,7 +104,7 @@ const Card =(props)=>{
                 <div className='font-semibold text-md'>
                     View
                 </div>
-                <IoMdShare size={24} onClick={()=>shareFileWith(address,'0x333Ee1E11749921A2f2F9C0BA31d695e3e885689','hello')}/>
+                {/* <IoMdShare size={24} onClick={()=>shareFileWith(address,'0x333Ee1E11749921A2f2F9C0BA31d695e3e885689','hello')}/> */}
                 {/* <DialogDemo /> */}
             </div>
         </div>
