@@ -3,6 +3,30 @@ export const providerUrl = 'https://x2vrsp0j-8545.inc1.devtunnels.ms/';
 
 export const abi =[
 	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "first",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "last",
+				"type": "string"
+			}
+		],
+		"name": "addUploadedFile",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -26,6 +50,25 @@ export const abi =[
 		],
 		"name": "Approval",
 		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "half",
+				"type": "string"
+			}
+		],
+		"name": "halfExperiment",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -91,30 +134,6 @@ export const abi =[
 		"type": "event"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "first",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "last",
-				"type": "string"
-			}
-		],
-		"name": "addUploadedFile",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"inputs": [],
 		"name": "getMyDocs",
 		"outputs": [
@@ -138,25 +157,6 @@ export const abi =[
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "half",
-				"type": "string"
-			}
-		],
-		"name": "halfExperiment",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -200,4 +200,4 @@ export const abi =[
 	}
 ]
 
-export const contractAddress = '0x10fcA289DB06aE7F22DC803b0612d996d51A8F5B';
+export const contractAddress = '0xB0077e8B59AEB685BB28b8d514c56EEFc3c76D10';

@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { IoMdShare } from "react-icons/io";
  
-export function DialogDemo() {
+export function DialogDemo(props) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -28,21 +28,21 @@ export function DialogDemo() {
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
-              Address1
+              {props.with1}
             </Label>
             <Input
               id="name"
-              defaultValue="Pedro Duarte"
+              defaultValue=""
               className="col-span-3"
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="username" className="text-right">
-              Address2
+              {props.fileName}
             </Label>
             <Input
               id="username"
-              defaultValue="@peduarte"
+              defaultValue=""
               className="col-span-3"
             />
           </div>

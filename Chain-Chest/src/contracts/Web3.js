@@ -30,13 +30,30 @@ export const whatsMyAddress = async (address) => {
 }
 
 
-export async function addUploadedFile(address,ipfsHash1) {
+
+// export async function addUploadedFile(address,ipfsHash1,ipfsHash2) {
+// 	try {
+// 		await contract.methods.addUploadedFile(ipfsHash1,ipfsHash2).send({
+// 			from: address
+// 		}).then(console.log);
+
+// 		console.log('Document uploaded:');
+// 	//   const tx = await contract.methods.addUploadedFile(ipfsHash).call().then(console.log);
+// 		// console.log('Document uploaded:', tx.transactionHash);
+// 	} catch (error) {
+// 		console.error('Error uploading document:', error);
+// 	}
+// }
+
+export async function halfExperiment(address,ipfsHash1) {
 	try {
 		await contract.methods.halfExperiment(ipfsHash1).send({
 			from: address
 		}).then(console.log);
 
 		console.log('Document uploaded:');
+	//   const tx = await contract.methods.addUploadedFile(ipfsHash).call().then(console.log);
+		// console.log('Document uploaded:', tx.transactionHash);
 	} catch (error) {
 		console.error('Error uploading document:', error);
 	}
@@ -54,6 +71,5 @@ export async function retrieve(address) {
 		return combinePairs(ipfsHash);
 	} catch (error) {
 		console.error('Error retrieving document:', error);
-		return [];
 	}
 }

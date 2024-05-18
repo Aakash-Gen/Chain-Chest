@@ -4,9 +4,12 @@ pragma solidity ^0.8.0;
 contract TokenContract {
     string public name = "ChainLocker";
     string public symbol = "CLOC";
+    // uint8 public decimals = 18;
+    // uint256 public totalSupply = 1000000 * (10 ** uint256(decimals));
 
-    mapping(address => string[]) private uploadedFiles;
-    mapping(address => mapping(address => string[])) private sharedFiles;
+    mapping(address => string[][]) private uploadedFiles;
+    mapping(address => string[]) private uploadedFiles2;
+    mapping(address => mapping(address => string[][])) private sharedFiles;
 
     event Transfer(address indexed from, address indexed to, uint256 value);
     event Approval(address indexed owner, address indexed spender, uint256 value);
@@ -18,61 +21,45 @@ contract TokenContract {
         return msg.sender;
     }
 
-    function addUploadedFile(string memory _fileName) public returns (bool) {
-        uploadedFiles[msg.sender].push(_fileName);
+    function addUploadedFile(string memory first, string memory last) public returns (bool) {
+        uploadedFiles[msg.sender].push([first, last]);
         return true;
     }
 
-    function addSharedFile(address _withWhom, string memory _fileName) public returns (bool) {
-        sharedFiles[msg.sender][_withWhom].push(_fileName);
-        return true; 
+    function halfExperiment(string memory half) public returns (bool) {
+        uploadedFiles2[msg.sender].push(half);
+        return true;
     }
 
-    function getMyDocs() public view returns (string[] memory) {
-        string[] memory documents = new string[](uploadedFiles[msg.sender].length);
+    // function shareFileWithAddress(address _withWhom, string memory first, string memory last) public returns (bool) {
+    //     sharedFiles[_withWhom][msg.sender].push([first, last]);
+    //     return true;
+    // }
+
+    function getMyDocs() public view returns (string[][] memory) {
+        string[][] memory documents = new string[][](uploadedFiles[msg.sender].length);
+
         for (uint i = 0; i < uploadedFiles[msg.sender].length; i++) {
             documents[i] = uploadedFiles[msg.sender][i];
         }
+
         return documents;
     }
 
-    // function getSharedDocs() public view returns (mapping(address => string[]) memory) {
-    //     return sharedFiles[msg.sender];
-    // }  
+    function getMyDocs2() public view returns (string[] memory) {
+        string[] memory documents = new string[](uploadedFiles2[msg.sender].length);
 
-    // function getSharedFilesFor(address y) public view returns (string[] memory) {
-    //     uint fileCount = sharedFiles[y].length; // Get the number of shared files
-    //     string[] memory files = new string[](fileCount);
+        for (uint i = 0; i < uploadedFiles2[msg.sender].length; i++) {
+            documents[i] = uploadedFiles2[msg.sender][i];
+        }
 
-    //     uint i = 0;
-    //     for (string memory file in sharedFiles[y]) {
-    //         files[i] = file;
-    //         i++;
-    //     }
-
-    //     return files;
-    // }
-
-    function verifyMessage(bytes32 _hashedMessage, uint8 _v, bytes32 _r, bytes32 _s) public pure returns (address) {
-        bytes memory prefix = "\x19Ethereum Signed Message:\n32";
-        bytes32 prefixedHashMessage = keccak256(abi.encodePacked(prefix, _hashedMessage));
-        address signer = ecrecover(prefixedHashMessage, _v, _r, _s);
-        return signer;
+        return documents;
     }
 
-       // function upload(address _signer, string _link, bytes memory _sig) public returns (bool success) {
-    //     // require(balanceOf[msg.sender] >= _value, "Not enough balance");
-    //     // balanceOf[msg.sender] -= _value;
-    //     // balanceOf[_to] += _value;
-    //     // emit Transfer(msg.sender, _to, _value);
-    //     return true;
+    // function verifyMessage(bytes32 _hashedMessage, uint8 _v, bytes32 _r, bytes32 _s) public pure returns (address) {
+    //     bytes memory prefix = "\x19Ethereum Signed Message:\n32";
+    //     bytes32 prefixedHashMessage = keccak256(abi.encodePacked(prefix, _hashedMessage));
+    //     address signer = ecrecover(prefixedHashMessage, _v, _r, _s);
+    //     return signer;
     // }
-
-
-    // function approve(address _spender, uint256 _value) public returns (bool success) {
-    //     // allowance[msg.sender][_spender] = _value;
-    //     // emit Approval(msg.sender, _spender, _value);
-    //     return true;
-    // }
-
  }
