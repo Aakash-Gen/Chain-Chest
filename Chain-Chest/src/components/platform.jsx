@@ -65,26 +65,18 @@ function Platform() {
             {popup &&
              (
                 <>
-                  <div className='fixed inset-0 bg-black opacity-50 z-30'></div>
-                  <div className='absolute top-1/2 bg-gray-50 px-8 py-4 rounded-lg left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-40 w-[60vh]'>
-                    <div className='flex justify-between pb-10'>
-                      <div className='text-2xl font-medium'>Add Files</div>
-                      <RxCross2 className='size-5 cursor-pointer' onClick={handlePopup} />
+                    <div className='fixed inset-0 bg-black opacity-50 z-30'></div>
+                    <div className='absolute top-1/2 bg-gray-50 px-8 py-4 rounded-lg left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-40 w-[60vh]'>
+                        <div className='flex justify-between pb-10'>
+                            <div className='text-2xl font-medium'>Add Files</div>
+                            <RxCross2 className='size-5 cursor-pointer' onClick={handlePopup} />
+                        </div>
+                        
+                        <Upload/>
                     </div>
-                    <Upload/>
-                    </div>
-                   
-
-                   
-                      
-                     
-                 
                 </>
               )}
-              </div>
-
-          
-
+            </div>
 
 
             {activeTab==="My Files" ? (
