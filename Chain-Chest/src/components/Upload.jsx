@@ -11,6 +11,8 @@ import { useNavigate } from 'react-router-dom';
 
 function Upload() {
   const navigate = useNavigate();
+  const [selectedOption, setSelectedOption] = useState('');
+
 
   const[file, setFile] = useState(null);
   const[file2, setFile2] = useState(null);
@@ -41,6 +43,7 @@ function Upload() {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('Selected option:', selectedOption);
     setLoading(true);
     try{
       const fileData = new FormData();
@@ -83,6 +86,11 @@ function Upload() {
     }
   }
 
+  const handleChange2 = (event) => {
+    setSelectedOption(event.target.value);
+  };
+
+
   // const signMessage = async () => {
   //   try {
 
@@ -113,13 +121,29 @@ function Upload() {
 
   return (
   <>
-    <div className="flex flex-col items-center py-10">
-      
-      <h1 className="text-5xl font-semibold mt-16 pb-[10vh]">IPFS: Upload File</h1>
-      
-      <form className="flex items-center gap-4 mt-8">
+    <div className="flex flex-col  items-center py-10">
+            
+      <form className=" gap-4 ">
+
+      <div className='flex justify-around items-baseline  mb-10'>
+      <label htmlFor="fileType" className='font-medium'>Choose a file type:</label>
+      <select id="fileType" value={selectedOption} onChange={handleChange2} className='w-28 bg-gray-100 px-4 py-2 rounded-sm'>
+        <option value="">Choose</option>
+        <option value="Images">Images</option>
+        <option value="PDF">PDF</option>
+        <option value="Certificates">Certificates</option>
+        <option value="eSign">eSign</option>
+      </select>
+      <button type="submit" className='px-4 py-2 bg-black text-white rounded-[1vh] cursor-pointer'>Submit</button>
+      </div>
+
+      <div>
+      <label htmlFor="fileType" className='font-medium'>Enter file name:</label>
+
+      </div>
+
         
-        <label htmlFor="fileInput" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
+        <label htmlFor="fileInput" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer mr-20">
           Choose File
         </label>
 
@@ -128,7 +152,7 @@ function Upload() {
           setFile2(URL.createObjectURL(e.target.files[0]));
         }}/>
 
-        <button className=" bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="submit" onClick={handleSubmit}>
+        <button className=" bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-24 " type="submit" onClick={handleSubmit}>
           {loading ? 'Uploading...' : 'Upload'}
         </button>
 
@@ -144,7 +168,7 @@ function Upload() {
       )}
 
       {fileUrl && (
-        <a href={fileUrl} target="_blank" className="mt-4 text-blue-500 underline">
+        <a href={fileUrl} target="_blank" className="hidden mt-4 text-blue-500 underline">
           Check the uploaded file here
         </a>
       )}
@@ -162,11 +186,11 @@ function Upload() {
           {signature == null || signature == undefined ? 'Verify your identity' : 'Identity verified'}
       </button> */}
 
-      <button onClick={() => whatsMyAddress(address)} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
+      <button onClick={() => whatsMyAddress(address)} className='bg-blue-400 hidden hover:bg-blue-300 px-2 py-1 border  border-gray-600 m-5'>
         whats my address
       </button>
 
-      <button onClick={() => retrieve(address)} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
+      <button onClick={() => retrieve(address)} className='bg-blue-400 hidden hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
         retrieve
       </button>
 
