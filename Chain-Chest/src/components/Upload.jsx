@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { addUploadedFile, whatsMyAddress, retrieve } from '../contracts/Web3';
 // import { v4 as uuidv4 } from 'uuid';
-import Web3 from 'web3';
-import encryptFile from '../utils/encryptFile';
-import decryptFile from '../utils/decryptFile';
+// import Web3 from 'web3';
+// import encryptFile from '../utils/encryptFile';
+// import decryptFile from '../utils/decryptFile';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -19,17 +19,17 @@ function Upload() {
   const [address, setAddress] = useState("");
 
 
-  const [ uploadedFile, setUploadedFile ] = useState('');
-  const [ filename, setFilename ] = useState('Choose A File');
-  const [ signature, setSignature ] = useState(null);
+  // const [ uploadedFile, setUploadedFile ] = useState('');
+  // const [ filename, setFilename ] = useState('Choose A File');
+  // const [ signature, setSignature ] = useState(null);
 
-  const onFileChange = (event) => {
-      setUploadedFile((event.target.files[0] !== undefined) ? event.target.files[0] : '');
-      setFilename((event.target.files[0] !== undefined) ? event.target.files[0].name : 'Choose File');
-  };
+  // const onFileChange = (event) => {
+  //     setUploadedFile((event.target.files[0] !== undefined) ? event.target.files[0] : '');
+  //     setFilename((event.target.files[0] !== undefined) ? event.target.files[0].name : 'Choose File');
+  // };
 
-  const encrypt = () => { encryptFile(uploadedFile, filename, signature); };
-  const decrypt = () => { decryptFile(uploadedFile, filename, signature); };
+  // const encrypt = () => { encryptFile(uploadedFile, filename, signature); };
+  // const decrypt = () => { decryptFile(uploadedFile, filename, signature); };
 
   useEffect(() => {
     const addressTemp = localStorage.getItem('address');
@@ -83,37 +83,37 @@ function Upload() {
     }
   }
 
-  const signMessage = async () => {
-    try {
+  // const signMessage = async () => {
+  //   try {
 
-      const message = "Sign this message to verify your identiy. This will be used for encrypting and decrypting your files."
-      const hashedMessage = Web3.utils.sha3(message);
+  //     const message = "Sign this message to verify your identiy. This will be used for encrypting and decrypting your files."
+  //     const hashedMessage = Web3.utils.sha3(message);
 
-      const signature = await window.ethereum.request(
-        { 
-            method: "personal_sign", 
-            params: [message, address] 
-        }
-      );
+  //     const signature = await window.ethereum.request(
+  //       { 
+  //           method: "personal_sign", 
+  //           params: [message, address] 
+  //       }
+  //     );
 
-      console.log({ message });
+  //     console.log({ message });
 
-      // split signature
-      const r = signature.slice(0, 66);
-      const s = "0x" + signature.slice(66, 130);
-      const v = parseInt(signature.slice(130, 132), 16);
-      console.log({ r, s, v });
+  //     // split signature
+  //     const r = signature.slice(0, 66);
+  //     const s = "0x" + signature.slice(66, 130);
+  //     const v = parseInt(signature.slice(130, 132), 16);
+  //     console.log({ r, s, v });
 
 
-      setSignature(signature);
-    } catch (error) {
-        console.error(error);
-    }
-  };
+  //     setSignature(signature);
+  //   } catch (error) {
+  //       console.error(error);
+  //   }
+  // };
 
   return (
   <>
-    <div className="flex flex-col items-center justify-center py-10 pb-[60vh]">
+    <div className="flex flex-col items-center py-10">
       
       <h1 className="text-5xl font-semibold mt-16 pb-[10vh]">IPFS: Upload File</h1>
       
@@ -134,7 +134,7 @@ function Upload() {
 
       </form>
 
-      <DocumentsList address={address} />
+      {/* <DocumentsList address={address} /> */}
 
 
       {file && (
