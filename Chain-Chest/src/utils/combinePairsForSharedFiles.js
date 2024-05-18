@@ -7,10 +7,10 @@ export const combinePairsForSharedFiles = async (input, address) =>  {
         const sublist = input.slice(i, i + 5);
         const combinedElement = sublist[1] + sublist[2];
         
-        console.log('sublist:', sublist);
-        // const addressOutput = await getAddressForIndexAndAddress(address, sublist[0]);
+        // console.log('sublist:', sublist);
+        const addressOutput = await getAddressForIndexAndAddress(address, sublist[0]);
 
-        const newSublist = [sublist[0], combinedElement, sublist[3], sublist[4]];
+        const newSublist = [addressOutput, combinedElement, sublist[3], sublist[4]];
         output.push(newSublist);
     }
 

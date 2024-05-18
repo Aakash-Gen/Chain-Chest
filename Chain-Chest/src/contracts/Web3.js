@@ -81,11 +81,10 @@ export async function retrieveSharedFiles(address) {
 			from: address
 		});
 		
-		console.log('Shared Files retrieved:', output);
-		// const result = JSON.stringify(ipfsHash.toString());
+		// console.log('Shared Files retrieved:', output);
 		// console.log('Shared Files retrieved:', await combinePairsForSharedFiles(output, address));
 
-		// return await combinePairsForSharedFiles(output, address);
+		return await combinePairsForSharedFiles(output, address);
 	} catch (error) {
 		console.error('Error retrieving document:', error);
 	}
@@ -98,7 +97,7 @@ export async function getAddressForIndexAndAddress(address, index) {
 			from: address
 		});
 		// const result = JSON.stringify(ipfsHash.toString());
-		console.log('the address for given index is :', output);
+		// console.log('the address for given index is :', output);
 
 		return output;
 	} catch (error) {
@@ -120,47 +119,41 @@ export async function shareFile(address, _with, ipfsHash1, ipfsHash2, fileName, 
 
 
 		console.log('sharing begins');
+
 		await contract.methods.shareFilePreprocessor(_with).send({
 			from: address
 		});
 
-		console.log('shareFilePreprocessor done');
 
 		const index = await contract.methods.getshareAddressListForAddressIndex().call({
 			from: _with
 		});
 
-		console.log('index:', index);
 
 		await contract.methods.shareFileAddIndex(index).send({
 			from: _with
 		});
 
-		console.log('shareFileAddIndex done');
 
 		await contract.methods.shareFileAddData(ipfsHash1).send({
 			from: _with
 		});
 
-		console.log('shareFileAddData done: ipfsHash1');
 
 		await contract.methods.shareFileAddData(ipfsHash2).send({
 			from: _with
 		});
 
-		console.log('shareFileAddData done: ipfsHash2');
 
 		await contract.methods.shareFileAddData(fileName).send({
 			from: _with
 		});
 
-		console.log('shareFileAddData done: fileName');
 
 		await contract.methods.shareFileAddData(docType).send({
 			from: _with
 		});
 
-		console.log('shareFileAddData done: docType');
 		
 		// const result = JSON.stringify(ipfsHash.toString());
 		console.log('the index returned:', index);

@@ -22,7 +22,7 @@ const Division = ({files, docType, address}) =>{
                                     files
                                         .filter(file => file.doctype === docType)
                                         .map((file, index) => (
-                                            <Card key={index} name={file.filename} ipfsHash={file.ipfsHash} type={file.doctype} address={address} docType={file.doctype}/>
+                                            <Card key={index} name={file.filename} ipfsHash={file.ipfsHash} address={address} docType={file.doctype}/>
                                         ))
                                     ) : (
                                 <p className='text-lg text-gray-500  flex justify-center items-center'>No files </p>
@@ -36,29 +36,61 @@ const Division = ({files, docType, address}) =>{
         </>
     );
 };
+
 const SharedDivision = ({sharedfiles, docType, address}) =>{
     
     return(
         <>
-            <h1 className='text-xl font-semibold mx-10 '>{docType}</h1>
+            {
+            sharedfiles != null && sharedfiles.filter(sharedfile => sharedfile[3] === docType).length > 0 ? 
+                (
+                    <div className='my-2'>
+                        <h1 className='text-lg font-semibold mb-2 pl-2'>{docType}</h1>
 
-                <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-5'>
-                    {sharedfiles && sharedfiles.length > 0 ? (
-                        sharedfiles
-                            .filter(sharedfile => sharedfile.doctype === docType)
-                            .map((sharedfile, index) => (
-                                <Card key={index} name={sharedfile.filename} ipfsHash={sharedfile.ipfsHash} type={sharedfile.doctype} address={address} docType={sharedfile.doctype}/>
-                            ))
-                        ) : (
-                    <p className='text-lg text-gray-500  flex justify-center items-center'>No files </p>
-                )}
+                        <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+                                {sharedfiles && sharedfiles.length > 0 ? (
+                                    sharedfiles
+                                        .filter(sharedfile => sharedfile[3] === docType)
+                                        .map((sharedfile, index) => (
+                                            <Card key={index} name={sharedfile[2]} ipfsHash={sharedfile[1]} docType={sharedfile[3]} address={sharedfile[0]}/>
+                                        ))
+                                    ) : (
+                                <p className='text-lg text-gray-500  flex justify-center items-center'>No files </p>
+                            )}
 
-            </div>
+                        </div>
+                    </div>
+                    
+                ) : <div></div>
+            }
         </>
-
-
     );
 };
+
+
+// const SharedDivision = ({sharedfiles, docType, address}) =>{
+    
+//     return(
+//         <>
+//             <h1 className='text-xl font-semibold mx-10 '>{docType}</h1>
+
+//                 <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-5'>
+//                     {sharedfiles && sharedfiles.length > 0 ? (
+//                         sharedfiles
+//                             .filter(sharedfile => sharedfile[3] === docType)
+//                             .map((sharedfile, index) => (
+//                                 <Card key={index} name={sharedfile[2]} ipfsHash={sharedfile[1]} docType={sharedfile[3]} address={sharedfile[0]}/>
+//                             ))
+//                         ) : (
+//                     <p className='text-lg text-gray-500  flex justify-center items-center'>No files </p>
+//                 )}
+
+//             </div>
+//         </>
+
+
+//     );
+// };
 
 
 function Platform() {
@@ -107,7 +139,8 @@ function Platform() {
         if (address !== "") {
             fetchFiles();
         }
-    }, [address,activeTab]);
+    }, [address, activeTab]);
+    
     useEffect(() => {
         const fetchFiles = async () => {
             try {
@@ -120,7 +153,7 @@ function Platform() {
         if (address !== "") {
             fetchFiles();
         }
-    }, [address,activeTab]);
+    }, [address, activeTab]);
 
     return (
         <div className='h-auto px-4 sm:px-6 md:px-10 lg:px-14 py-8'>
@@ -167,14 +200,21 @@ function Platform() {
                             </div>
                         ) : <></>
                     }
-                    <Division address={address} address={address} files={files} docType="Images" />
-                    <Division address={address} address={address} files={files} docType="PDF" />
-                    <Division address={address} address={address} files={files} docType="Certificates" />
-                    <Division address={address} address={address} files={files} docType="eSign" />
+                    <Division address={address} files={files} docType="Images" />
+                    <Division address={address} files={files} docType="PDF" />
+                    <Division address={address} files={files} docType="Certificates" />
+                    <Division address={address} files={files} docType="eSign" />
                 </>
             )} 
             {activeTab==="Shared Files" && ( 
                 <>
+                    {
+                        sharedFiles.length === 0 ? (
+                            <div className='flex justify-center items-center h-[50vh]'>
+                                <p className='text-lg text-gray-500'>No files available</p>
+                            </div>
+                        ) : <></>
+                    }
                     <SharedDivision address={address} sharedfiles={sharedFiles} docType="Images" />
                     <SharedDivision address={address} sharedfiles={sharedFiles} docType="PDF" />
                     <SharedDivision address={address} sharedfiles={sharedFiles} docType="Certificates" />
