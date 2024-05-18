@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { whatsMyAddress, retrieve, addUploadedFile } from '../contracts/Web3';
@@ -7,8 +6,6 @@ import { whatsMyAddress, retrieve, addUploadedFile } from '../contracts/Web3';
 // import encryptFile from '../utils/encryptFile';
 // import decryptFile from '../utils/decryptFile';
 import { useNavigate } from 'react-router-dom';
-import { MdOutlineDownloading } from "react-icons/md";
-
 
 
 function Upload() {
@@ -21,6 +18,10 @@ function Upload() {
   const[fileUrl, setFileUrl] =useState("");
   const [loading, setLoading] = useState(false);
   const [address, setAddress] = useState("");
+
+  const handleChange2 = (event) => {
+    setSelectedOption(event.target.value);
+  };
 
 
   // const [ uploadedFile, setUploadedFile ] = useState('');
@@ -42,33 +43,23 @@ function Upload() {
     }
     setAddress(addressTemp);
   },[]);
-
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-    setFile2(URL.createObjectURL(e.target.files[0]));
-    handleSubmit(); 
-  };
   
   const handleSubmit = async (e) => {
-    if (e) e.preventDefault();
+    e.preventDefault();
     setLoading(true);
-
-    if (!file) return;
-    console.log('Selected option:', selectedOption);
-    try {
+    try{
       const fileData = new FormData();
-      fileData.append("file", file);
+      fileData.append("file", file); 
 
       const responseData = await axios({
         method: "post",
         url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
         data: fileData,
         headers: {
-          Authorization: `Bearer ${import.meta.env.VITE_PINATA_JWT}`,
-        }
-      });
+          Authorization: `Bearer ${import.meta.env.VITE_PINATA_JWT}`,  
 
-     
+        }
+      })
       
       console.log(responseData.data);
       const ipfsHash = responseData.data.IpfsHash;
@@ -95,11 +86,6 @@ function Upload() {
       setLoading(false); // Set loading to false when the upload process is completed
     }
   }
-
-  const handleChange2 = (event) => {
-    setSelectedOption(event.target.value);
-  };
-
 
   // const signMessage = async () => {
   //   try {
@@ -131,8 +117,8 @@ function Upload() {
 
   return (
   <>
-    <div className="flex flex-col  items-center py-10">
-            
+    <div className="flex flex-col items-center py-10">
+      
       <form className=" gap-4 ">
 
       <div className='flex justify-start gap-4 items-baseline  mb-4'>
@@ -150,18 +136,21 @@ function Upload() {
       <label htmlFor="fileType" className='font-medium mr-6'>Enter file name:</label>
       <input id="filename" type="text" className='bg-gray-200 px-4 py-2 rounded-sm m-3'/>
       </div>
-
-        <div className='flex justify-center ml-16  items-center pt-6'>
-        <label htmlFor="fileInput" className="bg-black  hover:bg-gray-700 text-white font-bold py-2 px-4 rounded cursor-pointer mr-20 ">
-          Upload File
+        
+        <div className='flex justify-center gap-5 pt-4'>
+        <label htmlFor="fileInput" className="bg-black   hover:bg-gray-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
+          Choose File
         </label>
 
-        <input id="fileInput" type="file" className="hidden" onChange={handleFileChange} />
+        <input id="fileInput" type="file" className="hidden" onChange={(e) => {
+          setFile(e.target.files[0]);
+          setFile2(URL.createObjectURL(e.target.files[0]));
+        }}/>
 
-        {loading && <p className='text-black text-sm'>uploading</p>}
-
+        <button className=" bg-black   hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" type="submit" onClick={handleSubmit}>
+          {loading ? 'Uploading...' : 'Upload'}
+        </button>
         </div>
-       
 
       </form>
 
@@ -193,15 +182,17 @@ function Upload() {
           {signature == null || signature == undefined ? 'Verify your identity' : 'Identity verified'}
       </button> */}
 
-      <button onClick={() => whatsMyAddress(address)} className='bg-blue-400 hidden hover:bg-blue-300 px-2 py-1 border  border-gray-600 m-5'>
+      <button onClick={() => whatsMyAddress(address)} className='hidden bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
         whats my address
       </button>
 
-      <button onClick={() => retrieve(address)} className='bg-blue-400 hidden hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
+      <button onClick={() => retrieve(address)} className='hidden bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
         retrieve
       </button>
 
     
+
+
     </div>
 
     <div className='flex justify-end'>
