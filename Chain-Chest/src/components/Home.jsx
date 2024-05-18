@@ -23,32 +23,7 @@ function Home(){
             </div>
 
 
-            <div className='border-2 h-0'></div>
-
-            <div className='pt-40 pb-40'>
-
-                <div className='flex justify-center'>
-                    <span className='text-4xl font-semibold'>Upload your documents now</span>
-                </div>
-
-                <div className='grid grid-cols-3 pl-48 pt-10 text-xl font-semibold mt-20'>
-                        <div className='grid grid-col-1 '>
-                            <div>Upload with Ease</div>
-                            <MdOutlineDriveFolderUpload className='mx-11 size-16 mt-6'/>
-                            </div>
-                        
-                            <div className='grid grid-col-1 '>
-                            <div>Blockchain Security</div>
-                            <MdOutlineSecurity className='mx-11 size-16 mt-6'/>
-                            </div>
-
-                            <div className='grid grid-col-1 '>
-                            <div>Share Effortlessly</div>
-                            <FaShareAlt className='mx-11 size-16 mt-6'/>
-                            </div>
-                    
-                </div>
-            </div>
+         
 
             <div className='border-2 h-0  mb-40'></div>
 
