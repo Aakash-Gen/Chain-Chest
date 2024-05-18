@@ -12,12 +12,15 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { IoMdShare } from "react-icons/io";
 import { shareFile } from '@/contracts/Web3';
-import {useState} from 'react';
+import {useState,useEffect} from 'react';
+import { useNavigate } from "react-router-dom";
+import { retrieve } from "@/contracts/Web3";
 
  
 export const DialogDemo = (props) => {
   // const [address, setAddress] = useState("");
   // const navigate = useNavigate();
+  // // const [files,setFiles] = useState("");
   
   // useEffect(() => {
   //     const addressTemp = localStorage.getItem('address');
@@ -27,6 +30,7 @@ export const DialogDemo = (props) => {
   //     setAddress(addressTemp);
   // },[]);
   const [sharedAddress,setSharedAddress] = useState("");
+
 
   const handleShare = () => {
     shareFile(props.address, sharedAddress, props.ipfsHash1, props.ipfsHash2, props.fileName, props.docType);

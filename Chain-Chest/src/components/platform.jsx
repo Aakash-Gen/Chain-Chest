@@ -1,9 +1,8 @@
 import { useState,useEffect } from 'react';
-import { retrieve, shareFile, retrieveSharedFiles, getAddressForIndexAndAddress } from '@/contracts/Web3';
+import { retrieve, shareFile, retrieveSharedFiles } from '@/contracts/Web3';
 import { useNavigate } from 'react-router-dom';
 import Upload from './Upload';
 import { DialogDemo } from './demo/DialogDemo';
-import SharedFiles from './SharedFiles';
 import { RxCross2 } from "react-icons/rx";
 import { signMessageAndVerify } from '../contracts/signMessage';
 
@@ -37,10 +36,34 @@ const Division = ({files, docType, address}) =>{
         </>
     );
 };
+const SharedDivision = ({sharedfiles, docType, address}) =>{
+    
+    return(
+        <>
+            <h1 className='text-xl font-semibold mx-10 '>{docType}</h1>
+
+                <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-5'>
+                    {sharedfiles && sharedfiles.length > 0 ? (
+                        sharedfiles
+                            .filter(sharedfile => sharedfile.doctype === docType)
+                            .map((sharedfile, index) => (
+                                <Card key={index} name={sharedfile.filename} ipfsHash={sharedfile.ipfsHash} type={sharedfile.doctype} address={address} docType={sharedfile.doctype}/>
+                            ))
+                        ) : (
+                    <p className='text-lg text-gray-500  flex justify-center items-center'>No files </p>
+                )}
+
+            </div>
+        </>
+
+
+    );
+};
 
 
 function Platform() {
     const [ files, setFiles ] = useState([]);
+    const [sharedFiles, setSharedFiles] = useState([]);
     const [ address, setAddress ] = useState("");
     const [ activeTab, setActiveTab ] =  useState("My Files");
     const navigate = useNavigate();
@@ -76,11 +99,7 @@ function Platform() {
         const fetchFiles = async () => {
             try {
                 const retrievedFiles = await retrieve(address)
-                // console.log('Documents:', retrievedFiles);
-                // const ipfsHashes = retrievedFiles.map(doc => doc.ipfsHash);
-                // console.log('IPFS Hashes:', ipfsHashes);
                 setFiles(retrievedFiles);
-                // setFiles(retrievedFiles)
             } catch (error) {
                 console.error('Error retrieving files:', error);
             }
@@ -89,7 +108,19 @@ function Platform() {
             fetchFiles();
         }
     }, [address,activeTab]);
-
+    useEffect(() => {
+        const fetchFiles = async () => {
+            try {
+                const retrievedFiles = await retrieveSharedFiles(address)
+                setSharedFiles(retrievedFiles);
+            } catch (error) {
+                console.error('Error retrieving files:', error);
+            }
+        };
+        if (address !== "") {
+            fetchFiles();
+        }
+    }, [address,activeTab]);
 
     return (
         <div className='h-auto px-4 sm:px-6 md:px-10 lg:px-14 py-8'>
@@ -127,7 +158,7 @@ function Platform() {
             </div>
 
 
-            {activeTab==="My Files" ? (
+            {activeTab==="My Files" && (
                 <>
                     {
                         files.length === 0 ? (
@@ -136,19 +167,20 @@ function Platform() {
                             </div>
                         ) : <></>
                     }
-                    <Division address={address} files={files} docType="Images" />
-                    <Division address={address} files={files} docType="PDF" />
-                    <Division address={address} files={files} docType="Certificates" />
-                    <Division address={address} files={files} docType="eSign" />
+                    <Division address={address} address={address} files={files} docType="Images" />
+                    <Division address={address} address={address} files={files} docType="PDF" />
+                    <Division address={address} address={address} files={files} docType="Certificates" />
+                    <Division address={address} address={address} files={files} docType="eSign" />
+                </>
+            )} 
+            {activeTab==="Shared Files" && ( 
+                <>
+                    <SharedDivision address={address} sharedfiles={sharedFiles} docType="Images" />
+                    <SharedDivision address={address} sharedfiles={sharedFiles} docType="PDF" />
+                    <SharedDivision address={address} sharedfiles={sharedFiles} docType="Certificates" />
+                    <SharedDivision address={address} sharedfiles={sharedFiles} docType="eSign" />
                 </> 
-                
-            
-            ):( 
-                    <div>
-                        <SharedFiles/>
-                    </div>
-                )
-            }
+            )}
         </div>
   )
 }
@@ -164,7 +196,6 @@ const Tab =(props)=> {
 }
 
 const Card =(props)=>{
-    const navigate= useNavigate();
     const ImageUrl = "https://gateway.pinata.cloud/ipfs/" + props.ipfsHash
     const ipfsHashFull = props.ipfsHash;
     const midIndex = Math.floor(ipfsHashFull.length / 2);
@@ -174,16 +205,6 @@ const Card =(props)=>{
     const handleImageError = (e) => {
         e.target.src = '/src/assets/Landing_icon.jpg';
     }
-    const [address, setAddress] = useState("");
-
-    useEffect(() => {
-        const addressTemp = localStorage.getItem('address');
-        if (addressTemp == null) {
-          navigate('/login');
-        }
-        setAddress(addressTemp);
-    },[]);
-
     return(
         <div className='bg-gray-100 w-full shadow-md rounded-xl flex flex-col'>
             
