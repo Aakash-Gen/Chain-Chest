@@ -13,21 +13,21 @@ const Division = ({files,docType}) =>{
     
     return(
         <>
-        <h1 className='text-xl font-semibold mx-10 '>{docType}</h1>
+            <h1 className='text-xl font-semibold mx-10 '>{docType}</h1>
 
-<div className='grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border border-gray-200 rounded-sm p-5 m-12'>
-{files && files.length > 0 ? (
-files
-.filter(file => file.doctype === docType)
-.map((file, index) => (
-<Card key={index} name={file.filename} ipfsHash={file.ipfsHash} type={file.doctype} />
-))
-) : (
-<p className='text-lg text-gray-500  flex justify-center items-center'>No files </p>
-)}
+                <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-5'>
+                    {files && files.length > 0 ? (
+                        files
+                            .filter(file => file.doctype === docType)
+                            .map((file, index) => (
+                                <Card key={index} name={file.filename} ipfsHash={file.ipfsHash} type={file.doctype} />
+                            ))
+                        ) : (
+                    <p className='text-lg text-gray-500  flex justify-center items-center'>No files </p>
+                )}
 
-</div>
-</>
+            </div>
+        </>
 
 
     );
@@ -115,12 +115,10 @@ function Platform() {
 
             {activeTab==="My Files" ? (
                 <>
-<Division files={files} docType="Images" />
-<Division files={files} docType="PDF" />
-<Division files={files} docType="Certificates" />
-<Division files={files} docType="eSign" />
-
-
+                    <Division files={files} docType="Images" />
+                    <Division files={files} docType="PDF" />
+                    <Division files={files} docType="Certificates" />
+                    <Division files={files} docType="eSign" />
                 </> 
                 
             
@@ -167,20 +165,21 @@ const Card =(props)=>{
 
     return(
         <div className='bg-gray-100 w-full shadow-md rounded-xl flex flex-col'>
+            
             <div className='h-48 w-full'>
-            <img className='w-full h-full object-cover rounded-t-xl' onError={handleImageError} src={ImageUrl} alt="imagePreview" />
-
-               
+                <img className='w-full h-full object-cover rounded-t-xl' onError={handleImageError} src={ImageUrl} alt="imagePreview" />
             </div>
+
             <div className='flex justify-between py-2 items-center px-4'>
-            <a href={ImageUrl} target="_blank" className="no-underline">
-                <div className='font-semibold text-md' >
-                    {props.name}
-                </div>
-                <IoMdShare size={24} onClick={()=>shareFile(address, "0x5A08ebD1d2982f9421d58Ff9af14492217901028", ipfsHash1,ipfsHash2, props.name, props.docType)}/>
-                <IoMdShare size={24} onClick={()=>retrieveSharedFiles("0x5A08ebD1d2982f9421d58Ff9af14492217901028")}/>
-                <IoMdShare size={24} onClick={()=>getAddressForIndexAndAddress("0x5A08ebD1d2982f9421d58Ff9af14492217901028", '0')}/>
-                <DialogDemo/>
+                <a href={ImageUrl} target="_blank" className="no-underline">
+                    <div className='font-semibold text-md' >
+                        {props.name}
+                    </div>
+                    <IoMdShare size={24} onClick={()=>shareFile(address, "0x5A08ebD1d2982f9421d58Ff9af14492217901028", ipfsHash1,ipfsHash2, props.name, props.docType)}/>
+                    <IoMdShare size={24} onClick={()=>retrieveSharedFiles("0x5A08ebD1d2982f9421d58Ff9af14492217901028")}/>
+                    <IoMdShare size={24} onClick={()=>getAddressForIndexAndAddress("0x5A08ebD1d2982f9421d58Ff9af14492217901028", '0')}/>
+                    <DialogDemo/>
+                </a>
             </div>
         </div>
     )
