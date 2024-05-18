@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { whatsMyAddress, retrieve, addUploadedFile } from '../contracts/Web3';
@@ -11,6 +10,8 @@ import { useNavigate } from 'react-router-dom';
 
 function Upload() {
   const navigate = useNavigate();
+  const [selectedOption, setSelectedOption] = useState('');
+
 
   const[file, setFile] = useState(null);
   const[file2, setFile2] = useState(null);
@@ -19,6 +20,10 @@ function Upload() {
   const [address, setAddress] = useState("");
   const [name,setName] = useState("");
   const [docType,setDocType] = useState("");
+
+  const handleChange2 = (event) => {
+    setSelectedOption(event.target.value);
+  };
 
 
   // const [ uploadedFile, setUploadedFile ] = useState('');
@@ -116,11 +121,26 @@ function Upload() {
   <>
     <div className="flex flex-col items-center py-10">
       
-      <h1 className="text-5xl font-semibold mt-16 pb-[10vh]">IPFS: Upload File</h1>
-      
-      <form className="flex items-center gap-4 mt-8">
+      <form className=" gap-4 ">
+
+      <div className='flex justify-start gap-4 items-baseline  mb-4'>
+      <label htmlFor="fileType" className='font-medium'>Choose a file type:</label>
+      <select id="fileType" value={selectedOption} onChange={handleChange2} className='w-28 bg-gray-200 px-4 py-2 rounded-sm'>
+        <option value="">Select</option>
+        <option value="Images">Images</option>
+        <option value="PDF">PDF</option>
+        <option value="Certificates">Certificates</option>
+        <option value="eSign">eSign</option>
+      </select>
+      </div>
+
+      <div>
+      <label htmlFor="fileType" className='font-medium mr-6'>Enter file name:</label>
+      <input id="filename" type="text" className='bg-gray-200 px-4 py-2 rounded-sm m-3'/>
+      </div>
         
-        <label htmlFor="fileInput" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
+        <div className='flex justify-center gap-5 pt-4'>
+        <label htmlFor="fileInput" className="bg-black   hover:bg-gray-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
           Choose File
         </label>
 
@@ -132,9 +152,10 @@ function Upload() {
         <input className='bg-gray-200' type="text" placeholder='FileName' onChange={(e)=>setName(e.target.value)} />
         <input className='bg-gray-200' type="text" placeholder='DocType' onChange={(e)=>setDocType(e.target.value)} />
 
-        <button className=" bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="submit" onClick={handleSubmit}>
+        <button className=" bg-black   hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" type="submit" onClick={handleSubmit}>
           {loading ? 'Uploading...' : 'Upload'}
         </button>
+        </div>
 
       </form>
 
@@ -148,7 +169,7 @@ function Upload() {
       )}
 
       {fileUrl && (
-        <a href={fileUrl} target="_blank" className="mt-4 text-blue-500 underline">
+        <a href={fileUrl} target="_blank" className="hidden mt-4 text-blue-500 underline">
           Check the uploaded file here
         </a>
       )}
@@ -166,24 +187,27 @@ function Upload() {
           {signature == null || signature == undefined ? 'Verify your identity' : 'Identity verified'}
       </button> */}
 
-      <button onClick={() => whatsMyAddress(address)} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
+      <button onClick={() => whatsMyAddress(address)} className='hidden bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
         whats my address
       </button>
 
-      <button onClick={() => retrieve(address)} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
+      <button onClick={() => retrieve(address)} className='hidden bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
         retrieve
       </button>
 
-      <button onClick={async () => {
-          await addUploadedFile(address, 'hello');
-          await addUploadedFile(address, 'sup');
-        }} className='bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
-        add file
-      </button>
-
+    
 
 
     </div>
+
+    <div className='flex justify-end'>
+      <button onClick={async () => {
+          await halfExperiment(address, 'hello');
+          await halfExperiment(address, 'sup');
+        }} className='bg-purple-700 text-white font-semibold  rounded-sm hover:bg-purple-500 px-4 py-2 border  m-5'>
+        Add File
+      </button>
+      </div>
       
     </>
   )
