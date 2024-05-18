@@ -23,7 +23,7 @@ function Upload() {
 
   const handleChange2 = (event) => {
     setSelectedOption(event.target.value);
-    setDocType(selectedOption);
+    setDocType(event.target.value)
   };
 
 
