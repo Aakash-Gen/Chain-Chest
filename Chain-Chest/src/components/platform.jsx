@@ -27,8 +27,12 @@ function Platform() {
     useEffect(() => {
         const fetchFiles = async () => {
             try {
-                const retrievedFiles = await retrieve(address);
+                const retrievedFiles = await retrieve(address)
+                // console.log('Documents:', retrievedFiles);
+                // const ipfsHashes = retrievedFiles.map(doc => doc.ipfsHash);
+                // console.log('IPFS Hashes:', ipfsHashes);
                 setFiles(retrievedFiles);
+                // setFiles(retrievedFiles)
             } catch (error) {
                 console.error('Error retrieving files:', error);
             }
@@ -52,7 +56,7 @@ function Platform() {
                 <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
                         {files && files.length > 0 ? (
                             files.map((file, index) => (
-                                <Card key={index} ipfsHash={file} />
+                                <Card key={index} name={file.filename} ipfsHash={file.ipfsHash} />
                             ))
                     ) : (
                         <p className='text-3xl font-bold flex justify-center items-center'>No files available</p>
@@ -102,7 +106,7 @@ const Card =(props)=>{
             </div>
             <div className='flex justify-between py-2 items-center px-4'>
                 <div className='font-semibold text-md'>
-                    View
+                    {props.name}
                 </div>
                 {/* <IoMdShare size={24} onClick={()=>shareFileWith(address,'0x333Ee1E11749921A2f2F9C0BA31d695e3e885689','hello')}/> */}
                 {/* <DialogDemo /> */}
