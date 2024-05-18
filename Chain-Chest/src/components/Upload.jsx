@@ -163,15 +163,15 @@ function Upload() {
 
       {file && (
         <>
-          <img src={file2} alt="Selected File" className="mt-4 max-w-full h-96" />
+          <img src={file2} alt="Selected File" className="mt-4 max-w-full h-[40vh]" />
         </>
       )}
 
-      {fileUrl && (
+      {/* {fileUrl && (
         <a href={fileUrl} target="_blank" className="hidden mt-4 text-blue-500 underline">
           Check the uploaded file here
         </a>
-      )}
+      )} */}
 
       {/* <form className='mt-10'>
           <div className=''>
@@ -186,27 +186,27 @@ function Upload() {
           {signature == null || signature == undefined ? 'Verify your identity' : 'Identity verified'}
       </button> */}
 
-      <button onClick={() => whatsMyAddress(address)} className='hidden bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
+      {/* <button onClick={() => whatsMyAddress(address)} className='hidden bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
         whats my address
       </button>
 
       <button onClick={() => retrieve(address)} className='hidden bg-blue-400 hover:bg-blue-300 px-2 py-1 border border-gray-600 m-5'>
         retrieve
-      </button>
+      </button> */}
 
     
 
 
     </div>
 
-    <div className='flex justify-end'>
+    {/* <div className='flex justify-end'>
       <button onClick={async () => {
           await halfExperiment(address, 'hello');
           await halfExperiment(address, 'sup');
         }} className='bg-purple-700 text-white font-semibold  rounded-sm hover:bg-purple-500 px-4 py-2 border  m-5'>
         Add File
       </button>
-      </div>
+      </div> */}
       
     </>
   )

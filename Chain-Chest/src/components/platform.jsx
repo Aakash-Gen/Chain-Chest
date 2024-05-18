@@ -13,9 +13,9 @@ const Division = ({files,docType}) =>{
     
     return(
         <>
-        <h1 className='text-xl font-semibold '>{docType}</h1>
+        <h1 className='text-xl font-semibold mx-10 '>{docType}</h1>
 
-<div className='grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border border-gray-200 rounded-sm p-5 m-5'>
+<div className='grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border border-gray-200 rounded-sm p-5 m-12'>
 {files && files.length > 0 ? (
 files
 .filter(file => file.doctype === docType)
@@ -91,7 +91,10 @@ function Platform() {
 
            
 
-            <div className='px-8 py-2 bg-black text-white rounded-[1vh] cursor-pointer' onClick={handlePopup}>Add Files</div>
+            {activeTab !== "Shared Files" && (
+        <div className='px-8 py-2 bg-black text-white rounded-[1vh] cursor-pointer' onClick={handlePopup}>
+          Add Files
+        </div>)}
 
             {popup &&
              (
@@ -163,15 +166,17 @@ const Card =(props)=>{
     },[]);
     return(
         <div className='bg-gray-100 w-full shadow-md rounded-xl flex flex-col'>
-            <div className='h-64 w-full'>
+            <div className='h-48 w-full'>
             <img className='w-full h-full object-cover rounded-t-xl' onError={handleImageError} src={ImageUrl} alt="imagePreview" />
 
                
             </div>
             <div className='flex justify-between py-2 items-center px-4'>
-                <div className='font-semibold text-md'>
+            <a href={ImageUrl} target="_blank" className="no-underline">
+                <div className='font-semibold text-md' >
                     {props.name}
                 </div>
+                </a>
                 {/* <IoMdShare size={24} onClick={()=>shareFileWith(address,'0x333Ee1E11749921A2f2F9C0BA31d695e3e885689','hello')}/> */}
                 {/* <DialogDemo /> */}
             </div>
