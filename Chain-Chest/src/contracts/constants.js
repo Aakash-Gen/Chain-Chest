@@ -116,6 +116,66 @@ export const abi =[
 	},
 	{
 		"inputs": [],
+		"name": "getFilesSharedByAddress",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "with",
+						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "file",
+						"type": "string"
+					}
+				],
+				"internalType": "struct TokenContract.SharedFile[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getFilesSharedWithAddress",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "with",
+						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "file",
+						"type": "string"
+					}
+				],
+				"internalType": "struct TokenContract.SharedFile[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "getMyDocs",
 		"outputs": [
 			{
@@ -186,6 +246,24 @@ export const abi =[
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_with",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "file",
+				"type": "string"
+			}
+		],
+		"name": "shareFileWithAddress",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "symbol",
 		"outputs": [
@@ -200,4 +278,4 @@ export const abi =[
 	}
 ]
 
-export const contractAddress = '0x10fcA289DB06aE7F22DC803b0612d996d51A8F5B';
+export const contractAddress = '0xBD4deD839158c9DEB34eeD8dE83b5518953F60c7';

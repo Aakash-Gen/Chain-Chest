@@ -57,3 +57,21 @@ export async function retrieve(address) {
 		return [];
 	}
 }
+
+
+export async function shareFileWith(address, with1, fileName) {
+	try {
+		const ipfsHash = await contract.methods.shareFileWithAddress(with1,fileName).send({
+			from: address
+		});
+		// const result = JSON.stringify(ipfsHash.toString());
+		console.log('Document IPFS hash:', combinePairs(ipfsHash));
+
+		return combinePairs(ipfsHash);
+	} catch (error) {
+		console.error('Error retrieving document:', error);
+		return [];
+	}
+}
+
+

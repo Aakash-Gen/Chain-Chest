@@ -1,5 +1,5 @@
 import { useState,useEffect } from 'react';
-import { retrieve } from '@/contracts/Web3';
+import { retrieve, shareFileWith } from '@/contracts/Web3';
 import { useNavigate } from 'react-router-dom';
 import Upload from './Upload';
 import { IoMdShare } from "react-icons/io";
@@ -34,10 +34,12 @@ function Platform() {
         }
     }, [address,activeTab]);
     return (
-    <div className='w-full h-auto p-8'>
-        <div className='h-[70px] bg-gray-200 rounded-lg flex text-center p-2 gap-4 mb-16'>
+    <div className='w-full h-auto p-8 '>
+        <div className='flex flex-col items-center'>
+        <div className='h-[70px] w-[600px] bg-gray-200 rounded-lg flex text-center p-2 gap-4 mb-16'>
             <Tab name="My Files" active={activeTab==="My Files"} onClick={()=>handleTabChange("My Files")} />
             <Tab name="Upload" active={activeTab==="Upload"} onClick={()=>handleTabChange("Upload")} />
+        </div>
         </div>
         {activeTab==="My Files" ? (
             <div className='grid grid-cols-5 ml-12 '>
@@ -69,7 +71,16 @@ const Tab =(props)=> {
 }
 
 const Card =(props)=>{
+    const navigate= useNavigate();
     const ImageUrl = "https://gateway.pinata.cloud/ipfs/" + props.ipfsHash
+    const [address, setAddress] = useState("");
+    useEffect(() => {
+        const addressTemp = localStorage.getItem('address');
+        if (addressTemp == null) {
+          navigate('/login');
+        }
+        setAddress(addressTemp);
+    },[]);
     return(
         <div className='bg-gray-100 w-64 mb-10 shadow-md rounded-xl flex flex-col'>
             <div className='h-64 w-64'>
@@ -85,8 +96,8 @@ const Card =(props)=>{
                 <div className='font-semibold text-xl'>
                     View
                 </div>
-                {/* <IoMdShare size={24}/> */}
-                <DialogDemo/>
+                <IoMdShare size={24} onClick={()=>shareFileWith(address,'0x333Ee1E11749921A2f2F9C0BA31d695e3e885689','hello')}/>
+                {/* <DialogDemo /> */}
             </div>
         </div>
     )
