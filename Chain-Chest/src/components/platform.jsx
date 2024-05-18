@@ -9,6 +9,33 @@ import SharedFiles from './SharedFiles';
 import { RxCross2 } from "react-icons/rx";
 
 
+const Division = ({files,docType}) =>{
+    
+    return(
+        <>
+        <h1 className='text-xl font-semibold '>{docType}</h1>
+
+<div className='grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border border-gray-200 rounded-sm p-5 m-5'>
+{files && files.length > 0 ? (
+files
+.filter(file => file.doctype === docType)
+.map((file, index) => (
+<Card key={index} name={file.filename} ipfsHash={file.ipfsHash} type={file.doctype} />
+))
+) : (
+<p className='text-lg text-gray-500  flex justify-center items-center'>No files </p>
+)}
+
+</div>
+</>
+
+
+    );
+
+    
+};
+
+
 function Platform() {
     const [files, setFiles] = useState([]);
     const [address, setAddress] = useState("");
@@ -87,21 +114,19 @@ function Platform() {
               )}
               </div>
 
-          
-
-
 
             {activeTab==="My Files" ? (
-                <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-                        {files && files.length > 0 ? (
-                            files.map((file, index) => (
-                                <Card key={index} name={file.filename} ipfsHash={file.ipfsHash} />
-                            ))
-                    ) : (
-                        <p className='text-3xl font-bold flex justify-center items-center'>No files available</p>
-                    )}
-                </div>
-                ):( 
+                <>
+<Division files={files} docType="Images" />
+<Division files={files} docType="PDF" />
+<Division files={files} docType="Certificates" />
+<Division files={files} docType="eSign" />
+
+
+                </> 
+                
+            
+            ):( 
                     <div>
                         <SharedFiles/>
                     </div>
