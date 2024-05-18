@@ -4,6 +4,25 @@ export const providerUrl = 'https://kjl5p07l-7545.inc1.devtunnels.ms/';
 
 export const abi = [
 	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "half",
+				"type": "string"
+			}
+		],
+		"name": "addUploadedFile",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -46,6 +65,25 @@ export const abi = [
 		],
 		"name": "Shared",
 		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_with",
+				"type": "address"
+			}
+		],
+		"name": "shareFile",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -92,27 +130,21 @@ export const abi = [
 		"type": "event"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "half",
-				"type": "string"
-			}
-		],
-		"name": "addUploadedFile",
+		"inputs": [],
+		"name": "getMyDocs",
 		"outputs": [
 			{
-				"internalType": "bool",
+				"internalType": "string[]",
 				"name": "",
-				"type": "bool"
+				"type": "string[]"
 			}
 		],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
 		"inputs": [],
-		"name": "getMyDocs",
+		"name": "getSharedDocs",
 		"outputs": [
 			{
 				"internalType": "string[]",
@@ -164,4 +196,4 @@ export const abi = [
 	}
 ]
 
-export const contractAddress = '0x41997f7a4235d5ab60fFA4FaC849010832B0a6Fe';
+export const contractAddress = '0x50C567339728c1dFBAd9Cb7b5e2AF801D29F4152';
