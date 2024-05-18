@@ -1,78 +1,21 @@
-export const providerUrl = 'http://127.0.0.1:8545';
-// export const providerUrl = 'https://x2vrsp0j-8545.inc1.devtunnels.ms/';
+// export const providerUrl = 'http://127.0.0.1:8545';
+export const providerUrl = 'https://x2vrsp0j-8545.inc1.devtunnels.ms/';
 
 export const abi =[
 	{
 		"inputs": [
 			{
 				"internalType": "string",
-				"name": "half",
-				"type": "string"
-			}
-		],
-		"name": "addUploadedFileFirstHalf",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "half",
-				"type": "string"
-			}
-		],
-		"name": "addUploadedFileSecondHalf",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "half",
-				"type": "string"
-			}
-		],
-		"name": "addUploadedFiletest1",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "fileName",
+				"name": "first",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "docType",
+				"name": "last",
 				"type": "string"
 			}
 		],
-		"name": "addUploadThirdHalf",
+		"name": "addUploadedFile",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -82,11 +25,6 @@ export const abi =[
 		],
 		"stateMutability": "nonpayable",
 		"type": "function"
-	},
-	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
 	},
 	{
 		"anonymous": false,
@@ -114,6 +52,25 @@ export const abi =[
 		"type": "event"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "half",
+				"type": "string"
+			}
+		],
+		"name": "halfExperiment",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -131,73 +88,6 @@ export const abi =[
 		],
 		"name": "Shared",
 		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_with",
-				"type": "address"
-			}
-		],
-		"name": "shareFileAddAddress",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "hash",
-				"type": "string"
-			}
-		],
-		"name": "shareFileAddFirstHash",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "hash",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "fileName",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "docType",
-				"type": "string"
-			}
-		],
-		"name": "shareFileAddSecondHash",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -248,9 +138,9 @@ export const abi =[
 		"name": "getMyDocs",
 		"outputs": [
 			{
-				"internalType": "string[]",
+				"internalType": "string[][]",
 				"name": "",
-				"type": "string[]"
+				"type": "string[][]"
 			}
 		],
 		"stateMutability": "view",
@@ -258,7 +148,7 @@ export const abi =[
 	},
 	{
 		"inputs": [],
-		"name": "getSharedDocs",
+		"name": "getMyDocs2",
 		"outputs": [
 			{
 				"internalType": "string[]",
@@ -310,4 +200,4 @@ export const abi =[
 	}
 ]
 
-export const contractAddress = '0xc5c7257D01C33AFd62E3C9c8330617968cd1FDf6';
+export const contractAddress = '0xB0077e8B59AEB685BB28b8d514c56EEFc3c76D10';
