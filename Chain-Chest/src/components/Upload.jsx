@@ -92,6 +92,7 @@ function Upload() {
       setFileUrl("https://gateway.pinata.cloud/ipfs/" + ipfsHash);
       setMsg(1);
       console.log(ipfsHash);
+      window.location.reload();
 
 
     } catch(err){

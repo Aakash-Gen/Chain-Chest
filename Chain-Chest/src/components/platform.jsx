@@ -94,6 +94,7 @@ const SharedDivision = ({sharedfiles, docType, address}) =>{
 
 
 function Platform() {
+    const [ loggedIn, setLoggedIn ] = useState(null);
     const [ files, setFiles ] = useState([]);
     const [sharedFiles, setSharedFiles] = useState([]);
     const [ address, setAddress ] = useState("");
@@ -112,8 +113,10 @@ function Platform() {
 
     useEffect(() => {
         const addressTemp = localStorage.getItem('address');
-        if (addressTemp == null) {
-          navigate('/login');
+        if (addressTemp === null) {
+            setLoggedIn(false);
+        } else {
+            setLoggedIn(true);
         }
         setAddress(addressTemp);
         async () => {
@@ -158,68 +161,83 @@ function Platform() {
     return (
         <div className='h-auto px-4 sm:px-6 md:px-10 lg:px-14 py-8'>
             
-            <div className='flex justify-between mb-2 items-baseline'>
+            {
+                loggedIn === false ? (
+                    <div className='flex justify-center items-center h-[50vh]'>
+                        <p className='text-lg text-gray-500'>Please login first.</p>
+                    </div>
+                ) : <></>
+            }
+
+
+
+            { loggedIn === true && (
+                <>
+                <div className='flex justify-between mb-2 items-baseline'>
             
-                <div className='h-9 w-48 sm:w-72 bg-gray-200 rounded-lg flex sm:gap-5 p-1 '>
-                    <Tab name="My Files" active={activeTab==="My Files"} onClick={()=>handleTabChange("My Files")} />
-                    <Tab name="Shared Files" active={activeTab==="Shared Files"} onClick={()=>handleTabChange("Shared Files")} />
+                    <div className='h-9 w-48 sm:w-72 bg-gray-200 rounded-lg flex sm:gap-5 p-1 '>
+                        <Tab name="My Files" active={activeTab==="My Files"} onClick={()=>handleTabChange("My Files")} />
+                        <Tab name="Shared Files" active={activeTab==="Shared Files"} onClick={()=>handleTabChange("Shared Files")} />
+                    </div>
+
+                    {
+                        activeTab !== "Shared Files" && (
+                            <div className='px-8 py-2 bg-black text-white rounded-[1vh] cursor-pointer' onClick={handlePopup}>
+                            Add Files
+                            </div>
+                        )
+                    }
+
+                    {popup &&
+                    (
+                        <>
+                            <div className='fixed inset-0 bg-black opacity-50 z-30'></div>
+                            <div className='absolute top-1/2 bg-gray-50 px-8 py-10 rounded-lg left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-40 w-[60vh]'>
+                                <div className='flex justify-between mb-6'>
+                                    <div className='text-2xl font-bold'>Add Files</div>
+                                    <RxCross2 className='size-5 cursor-pointer' onClick={handlePopup} />
+                                </div>
+                                
+                                <Upload/>
+                            </div>
+                        </>
+                    )}
+
                 </div>
 
-                {
-                    activeTab !== "Shared Files" && (
-                        <div className='px-8 py-2 bg-black text-white rounded-[1vh] cursor-pointer' onClick={handlePopup}>
-                        Add Files
-                        </div>
-                    )
-                }
 
-                {popup &&
-                (
+                {activeTab==="My Files" && (
                     <>
-                        <div className='fixed inset-0 bg-black opacity-50 z-30'></div>
-                        <div className='absolute top-1/2 bg-gray-50 px-8 py-10 rounded-lg left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-40 w-[60vh]'>
-                            <div className='flex justify-between mb-6'>
-                                <div className='text-2xl font-bold'>Add Files</div>
-                                <RxCross2 className='size-5 cursor-pointer' onClick={handlePopup} />
-                            </div>
-                            
-                            <Upload/>
-                        </div>
+                        {
+                            files.length === 0 ? (
+                                <div className='flex justify-center items-center h-[50vh]'>
+                                    <p className='text-lg text-gray-500'>No files uploaded</p>
+                                </div>
+                            ) : <></>
+                        }
+                        <Division address={address} files={files} docType="Images" />
+                        <Division address={address} files={files} docType="PDF" />
+                        <Division address={address} files={files} docType="Certificates" />
+                        <Division address={address} files={files} docType="eSign" />
                     </>
+                )} 
+
+                {activeTab==="Shared Files" && ( 
+                    <>
+                        {
+                            sharedFiles.length === 0 ? (
+                                <div className='flex justify-center items-center h-[50vh]'>
+                                    <p className='text-lg text-gray-500'>No files available</p>
+                                </div>
+                            ) : <></>
+                        }
+                        <SharedDivision address={address} sharedfiles={sharedFiles} docType="Images" />
+                        <SharedDivision address={address} sharedfiles={sharedFiles} docType="PDF" />
+                        <SharedDivision address={address} sharedfiles={sharedFiles} docType="Certificates" />
+                        <SharedDivision address={address} sharedfiles={sharedFiles} docType="eSign" />
+                    </> 
                 )}
-
-            </div>
-
-
-            {activeTab==="My Files" && (
-                <>
-                    {
-                        files.length === 0 ? (
-                            <div className='flex justify-center items-center h-[50vh]'>
-                                <p className='text-lg text-gray-500'>No files uploaded</p>
-                            </div>
-                        ) : <></>
-                    }
-                    <Division address={address} files={files} docType="Images" />
-                    <Division address={address} files={files} docType="PDF" />
-                    <Division address={address} files={files} docType="Certificates" />
-                    <Division address={address} files={files} docType="eSign" />
                 </>
-            )} 
-            {activeTab==="Shared Files" && ( 
-                <>
-                    {
-                        sharedFiles.length === 0 ? (
-                            <div className='flex justify-center items-center h-[50vh]'>
-                                <p className='text-lg text-gray-500'>No files available</p>
-                            </div>
-                        ) : <></>
-                    }
-                    <SharedDivision address={address} sharedfiles={sharedFiles} docType="Images" />
-                    <SharedDivision address={address} sharedfiles={sharedFiles} docType="PDF" />
-                    <SharedDivision address={address} sharedfiles={sharedFiles} docType="Certificates" />
-                    <SharedDivision address={address} sharedfiles={sharedFiles} docType="eSign" />
-                </> 
             )}
         </div>
   )
