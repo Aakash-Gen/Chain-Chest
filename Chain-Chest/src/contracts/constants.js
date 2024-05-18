@@ -1,7 +1,93 @@
-// export const providerUrl = 'http://127.0.0.1:8545';
-export const providerUrl = 'https://x2vrsp0j-8545.inc1.devtunnels.ms/';
+export const providerUrl = 'http://127.0.0.1:8545';
+// export const providerUrl = 'https://x2vrsp0j-8545.inc1.devtunnels.ms/';
 
 export const abi =[
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "half",
+				"type": "string"
+			}
+		],
+		"name": "addUploadedFileFirstHalf",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "half",
+				"type": "string"
+			}
+		],
+		"name": "addUploadedFileSecondHalf",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "half",
+				"type": "string"
+			}
+		],
+		"name": "addUploadedFiletest1",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "fileName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "docType",
+				"type": "string"
+			}
+		],
+		"name": "addUploadThirdHalf",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
 	{
 		"anonymous": false,
 		"inputs": [
@@ -45,6 +131,73 @@ export const abi =[
 		],
 		"name": "Shared",
 		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_with",
+				"type": "address"
+			}
+		],
+		"name": "shareFileAddAddress",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "hash",
+				"type": "string"
+			}
+		],
+		"name": "shareFileAddFirstHash",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "hash",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "fileName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "docType",
+				"type": "string"
+			}
+		],
+		"name": "shareFileAddSecondHash",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -91,105 +244,8 @@ export const abi =[
 		"type": "event"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "first",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "last",
-				"type": "string"
-			}
-		],
-		"name": "addUploadedFile",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getFilesSharedByAddress",
-		"outputs": [
-			{
-				"components": [
-					{
-						"internalType": "address",
-						"name": "from",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "with",
-						"type": "address"
-					},
-					{
-						"internalType": "string",
-						"name": "file",
-						"type": "string"
-					}
-				],
-				"internalType": "struct TokenContract.SharedFile[]",
-				"name": "",
-				"type": "tuple[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getFilesSharedWithAddress",
-		"outputs": [
-			{
-				"components": [
-					{
-						"internalType": "address",
-						"name": "from",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "with",
-						"type": "address"
-					},
-					{
-						"internalType": "string",
-						"name": "file",
-						"type": "string"
-					}
-				],
-				"internalType": "struct TokenContract.SharedFile[]",
-				"name": "",
-				"type": "tuple[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [],
 		"name": "getMyDocs",
-		"outputs": [
-			{
-				"internalType": "string[][]",
-				"name": "",
-				"type": "string[][]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getMyDocs2",
 		"outputs": [
 			{
 				"internalType": "string[]",
@@ -201,22 +257,16 @@ export const abi =[
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "half",
-				"type": "string"
-			}
-		],
-		"name": "halfExperiment",
+		"inputs": [],
+		"name": "getSharedDocs",
 		"outputs": [
 			{
-				"internalType": "bool",
+				"internalType": "string[]",
 				"name": "",
-				"type": "bool"
+				"type": "string[]"
 			}
 		],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -246,24 +296,6 @@ export const abi =[
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_with",
-				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "file",
-				"type": "string"
-			}
-		],
-		"name": "shareFileWithAddress",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"inputs": [],
 		"name": "symbol",
 		"outputs": [
@@ -278,4 +310,4 @@ export const abi =[
 	}
 ]
 
-export const contractAddress = '0xBD4deD839158c9DEB34eeD8dE83b5518953F60c7';
+export const contractAddress = '0xc5c7257D01C33AFd62E3C9c8330617968cd1FDf6';
