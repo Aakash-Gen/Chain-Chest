@@ -52,8 +52,6 @@ export async function addUploadedFile(address, ipfsHash1, ipfsHash2, fileName, d
 		})
 
 		console.log('Document uploaded:');
-	//   const tx = await contract.methods.addUploadedFile(ipfsHash).call().then(console.log);
-		// console.log('Document uploaded:', tx.transactionHash);
 	} catch (error) {
 		console.error('Error uploading document:', error);
 	}
@@ -154,8 +152,6 @@ export async function shareFile(address, _with, ipfsHash1, ipfsHash2, fileName, 
 			from: _with
 		});
 
-		
-		// const result = JSON.stringify(ipfsHash.toString());
 		console.log('the index returned:', index);
 
 		return index;
