@@ -4,9 +4,7 @@ pragma solidity ^0.8.0;
 contract TokenContract {
     string public name = "ChainLocker";
     string public symbol = "CLOC";
-    // uint8 public decimals = 18;
-    // uint256 public totalSupply = 1000000 * (10 ** uint256(decimals));
-
+    
     mapping(address => string[]) private uploadedFiles;
     mapping(address => string[]) private sharedFiles;
 
@@ -24,10 +22,12 @@ contract TokenContract {
         return msg.sender;
     }
 
+
     function addUploadedFile(string memory half) public returns (bool) {
         uploadedFiles[msg.sender].push(half);
         return true;
     }
+
 
     function getMyDocs() public view returns (string[] memory) {
         string[] memory documents = new string[](uploadedFiles[msg.sender].length);
@@ -39,6 +39,7 @@ contract TokenContract {
         return documents;
     }
 
+
     function getSharedDocs() public view returns (string[] memory) {
         string[] memory documents = new string[](sharedFiles[msg.sender].length);
 
@@ -49,25 +50,30 @@ contract TokenContract {
         return documents;
     }
 
+
     function shareFilePreprocessor(address _with) public returns (bool) {
         shareAddressListForAddress[_with].push(msg.sender);
         return true;
     }
+
 
     function getshareAddressListForAddressIndex() public view returns (uint) {
         uint index = shareAddressListForAddress[msg.sender].length-1;
         return index;
     }
 
+
     function shareFileAddIndex(uint index) public returns (bool) {
         sharedFiles[msg.sender].push(num2st(index));
         return true;
     }
 
+
     function shareFileAddData(string memory half) public returns (bool) {
         sharedFiles[msg.sender].push(half);
         return true;
     }
+
 
     function addressForIndexAndAddress(string memory index) public view returns (address) {
         uint idx = st2num(index);
@@ -75,6 +81,7 @@ contract TokenContract {
         address result = shareAddressListForAddress[msg.sender][idx];
         return result;
     }
+
 
     function getShareAddressListForAddress() public view returns (address[] memory) {
         address[] memory documents = new address[](shareAddressListForAddress[msg.sender].length);
@@ -137,16 +144,4 @@ contract TokenContract {
         return string(bstr);
     }
 
-
-
-    // function verifyIdentity(bytes32 _hashedMessage, uint8 _v, bytes32 _r, bytes32 _s) public view returns (bool) {
-    //     return msg.sender == verifyMessage(_hashedMessage, _v, _r, _s);
-    // }
-
-    // function verifyMessage(bytes32 _hashedMessage, uint8 _v, bytes32 _r, bytes32 _s) public pure returns (address) {
-    //     bytes memory prefix = "\x19Ethereum Signed Message:\n32";
-    //     bytes32 prefixedHashMessage = keccak256(abi.encodePacked(prefix, _hashedMessage));
-    //     address signer = ecrecover(prefixedHashMessage, _v, _r, _s);
-    //     return signer;
-    // }
  }
