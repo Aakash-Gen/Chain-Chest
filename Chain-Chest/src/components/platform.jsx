@@ -5,6 +5,8 @@ import Upload from './Upload';
 import { DialogDemo } from './demo/DialogDemo';
 import { RxCross2 } from "react-icons/rx";
 import { signMessageAndVerify } from '../contracts/signMessage';
+import { IoEye } from "react-icons/io5";
+
 
 
 const Division = ({files, docType, address}) =>{
@@ -22,7 +24,7 @@ const Division = ({files, docType, address}) =>{
                                     files
                                         .filter(file => file.doctype === docType)
                                         .map((file, index) => (
-                                            <Card key={index} name={file.filename} ipfsHash={file.ipfsHash} address={address} docType={file.doctype}/>
+                                            <Card key={index} tabName="My Files" name={file.filename} ipfsHash={file.ipfsHash} address={address} docType={file.doctype}/>
                                         ))
                                     ) : (
                                 <p className='text-lg text-gray-500  flex justify-center items-center'>No files </p>
@@ -52,7 +54,7 @@ const SharedDivision = ({sharedfiles, docType, address}) =>{
                                     sharedfiles
                                         .filter(sharedfile => sharedfile[3] === docType)
                                         .map((sharedfile, index) => (
-                                            <Card key={index} name={sharedfile[2]} ipfsHash={sharedfile[1]} docType={sharedfile[3]} address={sharedfile[0]}/>
+                                            <Card key={index} tabName="Shared Files" addressWith={sharedfile[0]} ipfsHash={sharedfile[1]} docType={sharedfile[3]} name={sharedfile[2]} address={sharedfile[0]}/>
                                         ))
                                     ) : (
                                 <p className='text-lg text-gray-500  flex justify-center items-center'>No files </p>
@@ -106,7 +108,7 @@ function Platform() {
         setPopup(!popup);
 
     }
-    
+
     const handleTabChange =(tabName)=>{
         setActiveTab(tabName)
     }
@@ -128,8 +130,7 @@ function Platform() {
             }
         }
     },[]);
-
-
+    
     useEffect(() => {
         const fetchFiles = async () => {
             try {
@@ -168,9 +169,6 @@ function Platform() {
                     </div>
                 ) : <></>
             }
-
-
-
             { loggedIn === true && (
                 <>
                 <div className='flex justify-between mb-2 items-baseline'>
@@ -204,8 +202,6 @@ function Platform() {
                     )}
 
                 </div>
-
-
                 {activeTab==="My Files" && (
                     <>
                         {
@@ -259,9 +255,13 @@ const Card =(props)=>{
     const midIndex = Math.floor(ipfsHashFull.length / 2);
     const ipfsHash1 = ipfsHashFull.slice(0,midIndex);
     const ipfsHash2 = ipfsHashFull.slice(midIndex);
+    const [isClicked, setIsClicked] = useState(false);
 
+  const handleIconClick = () => {
+    setIsClicked(prevState => !prevState);
+  };
     const handleImageError = (e) => {
-        e.target.src = '/src/assets/Landing_icon.jpg';
+        e.target.src = 'https://logowik.com/content/uploads/images/adobe-pdf3324.jpg';
     }
     return(
         <div className='bg-gray-100 w-full shadow-md rounded-xl flex flex-col'>
@@ -276,10 +276,19 @@ const Card =(props)=>{
                 <div className='font-semibold text-md' >
                     {props.name}
                 </div>
-                {/* <IoMdShare size={24} onClick={()=>shareFile(address, "0x5A08ebD1d2982f9421d58Ff9af14492217901028", ipfsHash1,ipfsHash2, props.name, props.docType)}/> */}
-                <button size={24} onClick={async ()=>await retrieveSharedFiles("0x87857243577a532F8456a46F1152931d0E37Ac43")}>get something</button>
-                {/* <IoMdShare size={24} onClick={()=>getAddressForIndexAndAddress("0x5A08ebD1d2982f9421d58Ff9af14492217901028", '0')}/> */}
-                <DialogDemo address={props.address}  ipfsHash1={ipfsHash1} ipfsHash2 ={ipfsHash2} fileName={props.name} docType={props.docType}/>
+                {props.tabName === "My Files" && (
+                    <DialogDemo address={props.address}  ipfsHash1={ipfsHash1} ipfsHash2 ={ipfsHash2} fileName={props.name} docType={props.docType}/>
+                )}
+                {props.tabName === "Shared Files" && (
+                    <div>
+                        <IoEye  onClick={handleIconClick}/>
+                        {isClicked && (
+                            <div>
+                              {props.addressWith}
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
     )
