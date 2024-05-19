@@ -29,11 +29,14 @@ export const DialogDemo = (props) => {
   //     }
   //     setAddress(addressTemp);
   // },[]);
+  const [ shareSuccessful, setShareSuccessful ] = useState(false);
   const [sharedAddress,setSharedAddress] = useState("");
 
 
-  const handleShare = () => {
-    shareFile(props.address, sharedAddress, props.ipfsHash1, props.ipfsHash2, props.fileName, props.docType);
+  const handleShare = async () => {
+    setShareSuccessful(null);
+    await shareFile(props.address, sharedAddress, props.ipfsHash1, props.ipfsHash2, props.fileName, props.docType);
+    setShareSuccessful(true);
   }
 
   return (
@@ -58,6 +61,10 @@ export const DialogDemo = (props) => {
                 placeholder="Enter the address"
                 onChange={(e)=>setSharedAddress(e.target.value)}
               />
+
+              {shareSuccessful === null ? <p className="text-blue-500">Sharing...</p> :
+              shareSuccessful === true ? 
+              <p className="text-green-500">File successfully shared</p> : <></>}
 
           <DialogFooter>
             <Button onClick={handleShare}type="submit">Send</Button>
