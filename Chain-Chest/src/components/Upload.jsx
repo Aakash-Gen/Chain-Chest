@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { addUploadedFile } from '../contracts/Web3';
-// import { v4 as uuidv4 } from 'uuid';
-// import Web3 from 'web3';
-// import encryptFile from '../utils/encryptFile';
-// import decryptFile from '../utils/decryptFile';
 import { useNavigate } from 'react-router-dom';
 import { signMessageAndVerify } from '../contracts/signMessage';
 
@@ -12,8 +8,6 @@ import { signMessageAndVerify } from '../contracts/signMessage';
 function Upload() {
   const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState('');
-
-
   const[file, setFile] = useState(null);
   const[file2, setFile2] = useState(null);
   const[fileUrl, setFileUrl] =useState("");
@@ -28,19 +22,9 @@ function Upload() {
     setSelectedOption(event.target.value);
     setDocType(event.target.value)
   };
-
-
-  // const [ uploadedFile, setUploadedFile ] = useState('');
-  // const [ filename, setFilename ] = useState('Choose A File');
-  // const [ signature, setSignature ] = useState(null);
-
-  // const onFileChange = (event) => {
-  //     setUploadedFile((event.target.files[0] !== undefined) ? event.target.files[0] : '');
-  //     setFilename((event.target.files[0] !== undefined) ? event.target.files[0].name : 'Choose File');
-  // };
-
-  // const encrypt = () => { encryptFile(uploadedFile, filename, signature); };
-  // const decrypt = () => { decryptFile(uploadedFile, filename, signature); };
+  const handleImageError = (e) => {
+    e.target.src = 'https://logowik.com/content/uploads/images/adobe-pdf3324.jpg';
+  }
 
   useEffect(() => {
     const addressTemp = localStorage.getItem('address');
@@ -82,12 +66,7 @@ function Upload() {
       const ipfsHash1 = ipfsHash.slice(0,midIndex);
       const ipfsHash2 = ipfsHash.slice(midIndex);
 
-
       await addUploadedFile(address, ipfsHash1, ipfsHash2, name, docType);
-
-
-      // await addUploadedFile(address,ipfsHash1,ipfsHash2); 
-
 
       setFileUrl("https://gateway.pinata.cloud/ipfs/" + ipfsHash);
       setMsg(1);
@@ -131,7 +110,7 @@ function Upload() {
           
           {file && (
             <>
-              <img src={file2} alt="Selected File" className="mt-4 max-w-full h-[40vh]" />
+              <img src={file2} alt="Selected File" onError={handleImageError} className="mt-4 max-w-full h-[40vh]" />
             </>
           )}
 
@@ -151,12 +130,6 @@ function Upload() {
           </div>
 
       </form>
-
-      {/* <DocumentsList address={address} /> */}
-
-
-      
-
     </div>
     </>
   )

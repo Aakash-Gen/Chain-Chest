@@ -1,5 +1,5 @@
 import { useState,useEffect } from 'react';
-import { retrieve, shareFile, retrieveSharedFiles } from '@/contracts/Web3';
+import { retrieve, retrieveSharedFiles } from '@/contracts/Web3';
 import { useNavigate } from 'react-router-dom';
 import Upload from './Upload';
 import { DialogDemo } from './demo/DialogDemo';
@@ -10,7 +10,6 @@ import { IoEye } from "react-icons/io5";
 
 
 const Division = ({files, docType, address}) =>{
-    
     return(
         <>
             {
@@ -29,10 +28,8 @@ const Division = ({files, docType, address}) =>{
                                     ) : (
                                 <p className='text-lg text-gray-500  flex justify-center items-center'>No files </p>
                             )}
-
                         </div>
                     </div>
-                    
                 ) : <div></div>
             }
         </>
@@ -40,7 +37,6 @@ const Division = ({files, docType, address}) =>{
 };
 
 const SharedDivision = ({sharedfiles, docType, address}) =>{
-    
     return(
         <>
             {
@@ -59,41 +55,13 @@ const SharedDivision = ({sharedfiles, docType, address}) =>{
                                     ) : (
                                 <p className='text-lg text-gray-500  flex justify-center items-center'>No files </p>
                             )}
-
                         </div>
-                    </div>
-                    
+                    </div>   
                 ) : <div></div>
             }
         </>
     );
 };
-
-
-// const SharedDivision = ({sharedfiles, docType, address}) =>{
-    
-//     return(
-//         <>
-//             <h1 className='text-xl font-semibold mx-10 '>{docType}</h1>
-
-//                 <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-5'>
-//                     {sharedfiles && sharedfiles.length > 0 ? (
-//                         sharedfiles
-//                             .filter(sharedfile => sharedfile[3] === docType)
-//                             .map((sharedfile, index) => (
-//                                 <Card key={index} name={sharedfile[2]} ipfsHash={sharedfile[1]} docType={sharedfile[3]} address={sharedfile[0]}/>
-//                             ))
-//                         ) : (
-//                     <p className='text-lg text-gray-500  flex justify-center items-center'>No files </p>
-//                 )}
-
-//             </div>
-//         </>
-
-
-//     );
-// };
-
 
 function Platform() {
     const [ loggedIn, setLoggedIn ] = useState(null);
@@ -161,7 +129,6 @@ function Platform() {
 
     return (
         <div className='h-auto px-4 sm:px-6 md:px-10 lg:px-14 py-8'>
-            
             {
                 loggedIn === false ? (
                     <div className='flex justify-center items-center h-[50vh]'>
@@ -258,7 +225,10 @@ const Card =(props)=>{
     const [isClicked, setIsClicked] = useState(false);
 
   const handleIconClick = () => {
-    setIsClicked(prevState => !prevState);
+    setIsClicked(true);
+  };
+  const handleAddressClick = () => {
+    setIsClicked(false);
   };
     const handleImageError = (e) => {
         e.target.src = 'https://logowik.com/content/uploads/images/adobe-pdf3324.jpg';
@@ -280,10 +250,12 @@ const Card =(props)=>{
                     <DialogDemo address={props.address}  ipfsHash1={ipfsHash1} ipfsHash2 ={ipfsHash2} fileName={props.name} docType={props.docType}/>
                 )}
                 {props.tabName === "Shared Files" && (
-                    <div>
-                        <IoEye  onClick={handleIconClick}/>
+                    <div className="relative inline-block">
+                        {!isClicked && (
+                            <IoEye className='hover:cursor-pointer' onClick={handleIconClick}/>
+                        )}
                         {isClicked && (
-                            <div>
+                            <div onClick={handleAddressClick} className='className="absolute top-full left-0 mt-1 bg-white border border-gray-300 p-2 z-10 hover:cursor-pointer"'>
                               {props.addressWith}
                             </div>
                         )}
@@ -293,6 +265,5 @@ const Card =(props)=>{
         </div>
     )
 }
-
 
 export default Platform

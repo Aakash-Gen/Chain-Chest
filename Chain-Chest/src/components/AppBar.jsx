@@ -7,7 +7,7 @@ function AppBar(){
 
   const [isConnected, setIsConnected] = useState(true);
   const [ethBalance, setEthBalance] = useState("");
-  const [hover, setHover] = useState("false")
+  const [hover, setHover] = useState(false)
 
   useEffect(() => {
     const addressTemp = localStorage.getItem('address');
@@ -88,7 +88,8 @@ function AppBar(){
               {
                 hover &&
                   <div className='absolute bg-purple-200 px-3 py-1 text-black rounded-sm '>
-                    <span className='font-semibold'>Balance:{ethBalance}</span>
+                    <span className='font-semibold'>Balance:</span>
+                    {ethBalance}
                   </div>
               }
             </div>

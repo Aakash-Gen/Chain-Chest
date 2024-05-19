@@ -36,12 +36,9 @@ function App() {
         console.log(err);
     }
 }
-  
   const onDisconnect = () => {
     setIsConnected(false);
   }
-  
-  
   
   return (
     <div className="app">
